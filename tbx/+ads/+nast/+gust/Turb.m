@@ -63,13 +63,20 @@ methods
             opts.alt = 15000 %altitude in feet
             opts.FreqRange = [0 50];
         end
-        mni.printing.bdf.writeComment(fid,sprintf('Gust Subcase %.0f Properties',i))
-        mni.printing.bdf.writeColumnDelimiter(fid,'8');
-        % Gust Signal
-        obj.set_params(V,'alt',opts.alt);
-        mni.printing.cards.GUST(obj.GUST_id,obj.RLOAD_id,1/V,0,V).writeToFile(fid);
-        mni.printing.cards.RLOAD1(obj.RLOAD_id,DAREA_id,'TC',obj.TABLED1_id).writeToFile(fid);
-        mni.printing.cards.TABLED1(obj.TABLED1_id,opts.FreqRange,ones(size(opts.FreqRange))).writeToFile(fid);
+        % mni.printing.bdf.writeComment(fid,sprintf('Gust Subcase %.0f Properties',i))
+        % mni.printing.bdf.writeColumnDelimiter(fid,'8');
+        % % Gust Signal
+        % obj.set_params(V,'alt',opts.alt);
+        % mni.printing.cards.GUST(obj.GUST_id,obj.RLOAD_id,1/V,0,V).writeToFile(fid);
+        % mni.printing.cards.RLOAD1(obj.RLOAD_id,DAREA_id,'TC',obj.TABLED1_id).writeToFile(fid);
+        % mni.printing.cards.TABLED1(obj.TABLED1_id,opts.FreqRange,ones(size(opts.FreqRange))).writeToFile(fid);
+
+
+        
+
+
+
+
         mni.printing.cards.RANDPS(obj.RANDOM_id,idx,idx,1,0,"TID",obj.TableRand_id).writeToFile(fid);
         mni.printing.cards.TABRNDG(obj.TableRand_id,1,obj.LengthScale/V,obj.RMS).writeToFile(fid);
     end

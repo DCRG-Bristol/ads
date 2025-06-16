@@ -6,38 +6,40 @@ classdef RigidBodyElement < ads.fe.Element
         %Point1 ads.fe.Point
         %Point2 ads.fe.Point
         EID double = nan;
-        REFGRID double = nan;
-        REFC (:,1) double {mustBeInteger,mustBePositive}
-        WTi (:,1) double {mustBeNumeric,mustBePositive}
-        Ci (:,1) double {mustBeInteger,mustBePositive}
-        Gi %(:,1) double {mustBeInteger,mustBePositive}
+        %REFGRID double = nan;
+        REFGRID ads.fe.Point=ads.fe.Point.empty(0,1);
+        REFC %(:,1) double {mustBeInteger,mustBePositive}
+        WTi double;%(:,1) double %{mustBeNumeric,mustBePositive}
+        Ci %(:,1) double {mustBeInteger,mustBePositive}
+        %Gi %(:,1) double {mustBeInteger,mustBePositive}
+        Gi ads.fe.Point=ads.fe.Point.empty(0,1);
         ExportLongFormat logical = true;
     end
 
     methods
-        function obj = RigidBodyElement(EID,REFGRID,REFC,WTi,Ci,Gi)
+        function obj = RigidBodyElement(REFGRID,REFC,WTi,Ci,Gi)%obj = RigidBodyElement(EID,REFGRID,REFC,WTi,Ci,Gi)
             arguments
-               EID double
-               REFGRID double
-               REFC double
-               WTi (:,1) double
-               Ci (:,1) double
-               Gi %(:,1) double
+               %EID double
+               REFGRID ads.fe.Point
+               REFC %double
+               WTi %(:,1) double
+               Ci %(:,1) double
+               Gi ads.fe.Point%(:,1) double
             end
-            obj.EID=EID;
+            %obj.EID=EID;
             obj.REFGRID=REFGRID;
             obj.REFC=REFC;
             obj.WTi = WTi;
             obj.Ci = Ci;
-            if length(Ci)~=length(Gi)
-                error('Gi Ci not same length')
-            end
+            % if length(Ci)~=length(Gi)
+            %     error('Gi Ci not same length')
+            % end
             obj.Gi = Gi;
 
         end
         function ids = UpdateID(obj,ids)
             for i = 1:length(obj)
-                obj(i).ID = ids.EID;
+                obj(i).EID = ids.EID;
                 ids.EID = ids.EID + 1;
             end
         end
@@ -58,7 +60,7 @@ classdef RigidBodyElement < ads.fe.Element
         
         
         function Export(obj,fid)
-            obj(1).ExportToRBE3(fid);
+            obj.ExportToRBE3(fid);
         end
 
         function ExportToRBE3(obj,fid)
@@ -77,7 +79,7 @@ classdef RigidBodyElement < ads.fe.Element
                         
                         %RBE3 fancy things live here 
 
-                        tmpCard = mni.printing.cards.RBE3(obj(i).EID,obj(i).REFGRID,obj.REFC,obj.WTi,obj.Ci,obj.GIj);
+                        tmpCard = mni.printing.cards.RBE3(obj(i).EID,obj(i).REFGRID,obj(i).REFC,obj(i).WTi,obj(i).Ci,obj(i).Gi);
                         
                     % else
                     %     tmpCard = mni.printing.cards.CBEAM(obj(i).ID,obj(i).PID,Pa.ID,Pb.ID,"x",obj(i).yDir);
