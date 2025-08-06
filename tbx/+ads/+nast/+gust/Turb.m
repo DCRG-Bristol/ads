@@ -12,8 +12,8 @@ properties
     Type = 'VonKarman';
 
     % user specified psdf
-    userFreqs = NaN;
-    userPSDs = NaN;
+    userFreqs = NaN;        % frequencies for TABRND1 entry
+    userPSDs = NaN;         % PSD values corresponding to frequencies in userFreqs
     userAxisTypes = {"LINEAR", "LINEAR"}
 end
 methods
@@ -26,6 +26,7 @@ methods
             opts.userXtype string  {mustBeMember(opts.userXtype,["LINEAR","LOG"])} = "LINEAR"
             opts.userYtype string  {mustBeMember(opts.userYtype,["LINEAR","LOG"])} = "LINEAR"
         end
+
         obj.RMS = TurbRMS;
         obj.Type = TurbType;
         obj.userFreqs = userFreqs;
