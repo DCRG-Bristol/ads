@@ -8,6 +8,7 @@ arguments
     opts.BinFolder string = '';
     opts.IncludeEigenVec = true;
     opts.createBat = false;
+    opts.cmdLineArgs char = '';
 end
 
 %% create BDFs
@@ -51,7 +52,7 @@ while attempt<opts.NumAttempts+1
     cd(fullfile(binFolder,'Source'))
     fprintf('Computing sol103 for Model %s ... ',obj.Name);
     command = [ads.nast.getExe,' ','sol103.bdf',...
-        ' ',sprintf('out=..%s%s%s',filesep,'bin',filesep)];
+        ' ',sprintf('out=..%s%s%s',filesep,'bin',filesep),' ',  opts.cmdLineArgs];
     % command = [command, ' ','scr=YES'];
     % command = [command, ' ','smp=4'];
     % command = [command, ' ','solve=auto'];

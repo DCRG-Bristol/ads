@@ -11,6 +11,7 @@ arguments
     opts.OutputAeroMatrices logical = false;
     opts.UseHdf5 = true;
     opts.createBat = false;
+    opts.cmdLineArgs char = '';
 end
 obj.OutputAeroMatrices = opts.OutputAeroMatrices;
 %% create BDFs
@@ -75,7 +76,7 @@ while attempt<opts.NumAttempts+1
             obj.Name,length(obj.V));
     end
     command = [ads.nast.getExe,' ','sol144.bdf',...
-        ' ',sprintf('out=..%s%s%s',filesep,'bin',filesep)];
+        ' ',sprintf('out=..%s%s%s',filesep,'bin',filesep), ' ',  opts.cmdLineArgs];
     if opts.Silent || opts.TruelySilent
         command = [command,' ','1>NUL 2>NUL'];
     end
