@@ -76,6 +76,9 @@ while attempt<opts.NumAttempts+1
     end
     command = [ads.nast.getExe,' ','sol144.bdf',...
         ' ',sprintf('out=..%s%s%s',filesep,'bin',filesep)];
+    command = [command, ' ','news=no'];
+    command = [command, ' ','notify=no'];
+    command = [command, ' ','old=no'];
     if opts.Silent || opts.TruelySilent
         command = [command,' ','1>NUL 2>NUL'];
     end
