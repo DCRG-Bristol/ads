@@ -52,7 +52,11 @@ while attempt<opts.NumAttempts+1
     cd(fullfile(binFolder,'Source'))
     fprintf('Computing sol103 for Model %s ... ',obj.Name);
     command = [ads.nast.getExe,' ','sol103.bdf',...
-        ' ',sprintf('out=..%s%s%s',filesep,'bin',filesep),' ',  opts.cmdLineArgs];
+        ' ',sprintf('out=..%s%s%s',filesep,'bin',filesep)];
+    command = [command, ' ','news=no'];
+    command = [command, ' ','notify=no'];
+    command = [command, ' ','old=no'];
+    command = [command, ' ',opts.cmdLineArgs];
     % command = [command, ' ','scr=YES'];
     % command = [command, ' ','smp=4'];
     % command = [command, ' ','solve=auto'];
