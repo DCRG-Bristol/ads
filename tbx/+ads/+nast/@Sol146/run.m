@@ -7,9 +7,8 @@ arguments
     opts.NumAttempts = 1;
     opts.BinFolder string = '';
     opts.TruelySilent = false;
-
-    % EDW: add option to create a batch file
     opts.createBat = false;
+    opts.cmdLineArgs char = '';
 end
 
 %% create BDFs
@@ -62,11 +61,14 @@ while attempt<opts.NumAttempts+1
         fprintf('Computing sol146 for Model %s: %.0f gusts ... ',...
             obj.Name,length(obj.Gusts));
     end
+    
     command = [ads.nast.getExe,' ','sol146.bdf',...
         ' ',sprintf('out=..%s%s%s',filesep,'bin',filesep)];
     command = [command, ' ','news=no'];
     command = [command, ' ','notify=no'];
     command = [command, ' ','old=no'];
+    command = [command, ' ',opts.cmdLineArgs];
+    
     if opts.Silent || opts.TruelySilent
         command = [command,' ','1>NUL 2>NUL'];
     end

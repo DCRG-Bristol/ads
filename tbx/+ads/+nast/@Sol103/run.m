@@ -8,6 +8,7 @@ arguments
     opts.BinFolder string = '';
     opts.IncludeEigenVec = true;
     opts.createBat = false;
+    opts.cmdLineArgs char = '';
 end
 
 %% create BDFs
@@ -55,6 +56,7 @@ while attempt<opts.NumAttempts+1
     command = [command, ' ','news=no'];
     command = [command, ' ','notify=no'];
     command = [command, ' ','old=no'];
+    command = [command, ' ',opts.cmdLineArgs];
     % command = [command, ' ','scr=YES'];
     % command = [command, ' ','smp=4'];
     % command = [command, ' ','solve=auto'];
