@@ -8,7 +8,7 @@ arguments
     opts.BinFolder string = '';
     opts.TruelySilent = false;
     opts.createBat = false;
-    opts.cmdLineArgs char = '';
+    opts.cmdLineArgs struct = struct.empty;
 end
 
 %% create BDFs
@@ -61,17 +61,8 @@ while attempt<opts.NumAttempts+1
         fprintf('Computing sol146 for Model %s: %.0f gusts ... ',...
             obj.Name,length(obj.Gusts));
     end
-    
-    command = [ads.nast.getExe,' ','sol146.bdf',...
-        ' ',sprintf('out=..%s%s%s',filesep,'bin',filesep)];
-    command = [command, ' ','news=no'];
-    command = [command, ' ','notify=no'];
-    command = [command, ' ','old=no'];
-    command = [command, ' ',opts.cmdLineArgs];
-    
-    if opts.Silent || opts.TruelySilent
-        command = [command,' ','1>NUL 2>NUL'];
-    end
+    command = ads.nast.buildCommand('sol146.bdf',...
+        cmdLineArgs=opts.cmdLineArgs,Silent=(opts.Silent || opts.TruelySilent));
     if opts.TruelySilent
         system(command);
     else

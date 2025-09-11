@@ -8,7 +8,7 @@ arguments
     opts.BinFolder string = '';
     opts.IncludeEigenVec = true;
     opts.createBat = false;
-    opts.cmdLineArgs char = '';
+    opts.cmdLineArgs struct = struct.empty;
 end
 
 %% create BDFs
@@ -51,19 +51,8 @@ while attempt<opts.NumAttempts+1
     current_folder = pwd;
     cd(fullfile(binFolder,'Source'))
     fprintf('Computing sol103 for Model %s ... ',obj.Name);
-    command = [ads.nast.getExe,' ','sol103.bdf',...
-        ' ',sprintf('out=..%s%s%s',filesep,'bin',filesep)];
-    command = [command, ' ','news=no'];
-    command = [command, ' ','notify=no'];
-    command = [command, ' ','old=no'];
-    command = [command, ' ',opts.cmdLineArgs];
-    % command = [command, ' ','scr=YES'];
-    % command = [command, ' ','smp=4'];
-    % command = [command, ' ','solve=auto'];
-    % command = [command, ' ','gpuid=0'];
-    if opts.Silent
-        command = [command,' ','1>NUL 2>NUL'];
-    end
+    command = ads.nast.buildCommand('sol103.bdf',...
+        cmdLineArgs=opts.cmdLineArgs,Silent=opts.Silent);
     tic;
     system(command);
     toc;
