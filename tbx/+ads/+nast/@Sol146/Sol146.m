@@ -1,11 +1,10 @@
-classdef Sol146 < handle
-    %FLUTTERSIM Summary of this class goes here
+classdef Sol146 < ads.nast.BaseSol
+    %SOL146 Summary of this class goes here
     %   Detailed explanation goes here
     
     properties
         % generic aero parameters
-        Name = 'Default SOL146: ';
-        LoadFactor = 1;
+        Name = 'Default SOL146:';
         V = 0;
         rho = 0;
         Mach = 0;
@@ -42,13 +41,7 @@ classdef Sol146 < handle
         SPC_ID = 9;
         EPoint_ID = nan;
 
-        SPCs = [];
         ReducedFreqs = [0.01,0.05,0.1,0.2,0.5,0.75,1,2,4];
-
-        % CoM Info for Boundary Constraints
-        isFree = false; % if is Free a Boundary condition will be applied to  the Centre of Mass
-        CoM = ads.fe.Constraint.empty;
-        DoFs = [];
     end
     
     methods
@@ -92,20 +85,6 @@ classdef Sol146 < handle
                     ids = obj.Gusts(i).UpdateID(ids);
                 end
         end
-        function str = config_string(obj)
-            str = '';
-        end
-        
-        %% A method to write a .bat file to the same location as the main .bdf which will run the analysis and make NASTRAN 
-        % write the result to the appropriate .bin folder. This is just a convenience if you want to run the analysis without
-        % going via MATLAB.
-        function writeJobSubmissionBat(~, binFolder)
-            batFile = fullfile(pwd, binFolder, 'Source', 'run146.bat');
-            fid = fopen(batFile,'w');
-            fprintf(fid, '%s \n', 'nastran sol146.bdf out=..\bin\');
-            fclose(fid);
-        end
-
     end
 end
 

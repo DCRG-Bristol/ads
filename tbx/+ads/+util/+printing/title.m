@@ -3,10 +3,10 @@ function varargout = title(str,opts)
         str char
         opts.fid = 1;
         opts.Length = 80;
-        opts.Symbol string = "-"
+        opts.Symbol (1,1) char = '-'
         opts.Padding = 0
     end
-    
+    % ensure opts.Symbols of length two
     if length(str)>=opts.Length
         % no nothing
     elseif length(str) == opts.Length-1
@@ -14,12 +14,12 @@ function varargout = title(str,opts)
     elseif length(str) == opts.Length-2
         str = [' ',str,' '];
     elseif length(str) == opts.Length-3
-        str = ['- ',str,' '];
+        str = [opts.Symbol,' ',str,' '];
     else
         delta = opts.Length-(length(str)+2);
-        dashes = repmat(char(opts.Symbol(1)),1,floor(delta/2));
+        dashes = repmat(char(opts.Symbol),1,floor(delta/2));
         if length(opts.Symbol) > 1
-            dashes_2 = repmat(char(opts.Symbol(2)),1,floor(delta/2));
+            dashes_2 = repmat(char(opts.Symbol),1,floor(delta/2));
         else
             dashes_2 = dashes;
         end
@@ -32,8 +32,8 @@ function varargout = title(str,opts)
     end
     padding = '';
     for i = 1:opts.Padding
-        padding = [padding,repmat(char(opts.Symbol(1)),1,floor(opts.Length/2)),...
-            repmat(char(opts.Symbol(2)),1,ceil(opts.Length/2)),'\n'];
+        padding = [padding,repmat(char(opts.Symbol),1,floor(opts.Length/2)),...
+            repmat(char(opts.Symbol),1,ceil(opts.Length/2)),'\n'];
     end
     fprintf(opts.fid,[padding,str,'\n',padding]);
     if nargout>0

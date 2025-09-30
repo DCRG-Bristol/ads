@@ -2,15 +2,10 @@ function [binFolder] = run(obj,feModel,opts)
 arguments
     obj ads.nast.Sol144
     feModel ads.fe.Component
-    opts.Silent = true;
-    opts.TruelySilent = false;
     opts.StopOnFatal = false;
     opts.NumAttempts = 3;
     opts.BinFolder string = '';
-    opts.trimObjs = ads.nast.TrimParameter.empty;
     opts.OutputAeroMatrices logical = false;
-    opts.UseHdf5 = true;
-    opts.createBat = false;
     opts.cmdLineArgs struct = struct.empty;
 end
 obj.OutputAeroMatrices = opts.OutputAeroMatrices;
@@ -66,50 +61,10 @@ if opts.createBat
 end
 
 %% Run Analysis
-attempt = 1;
-while attempt<opts.NumAttempts+1
-    % run NASTRAN
-    current_folder = pwd;
-    cd(fullfile(binFolder,'Source'))
-    if ~opts.TruelySilent
-        fprintf('Computing sol144 for Model %s: %.0f velocities ... ',...
-            obj.Name,length(obj.V));
-    end
-    command = ads.nast.buildCommand('sol144.bdf',...
-        cmdLineArgs=opts.cmdLineArgs,Silent=(opts.Silent || opts.TruelySilent));
-    if opts.TruelySilent
-        system(command);
-    else     
-        tic;
-        system(command);
-        toc;
-    end
-    cd(current_folder);
-    %get Results
-    f06_filename = fullfile(binFolder,'bin','sol144.f06');
-    f06_file = mni.result.f06(f06_filename);
-    if f06_file.isEmpty
-        attempt = attempt + 1;
-        fprintf('%s is empty on attempt %.0f...\n',f06_filename,attempt)
-        continue
-    elseif f06_file.isfatal
-        if opts.StopOnFatal
-            error('ADS:Nastran','Fatal error detected in f06 file %s...',f06_filename)
-        else
-            attempt = attempt + 1;
-            fprintf('Fatal error detected on attempt %.0f in f06 file %s... \n',attempt,f06_filename)
-            continue
-        end
-    else
-        break
-    end
+obj.executeNastran('sol144',opts.StopOnFatal,opts.NumAttempts,opts.cmdLineArgs);
 end
-if attempt > opts.NumAttempts
-    fprintf('Failed after %.0f attempts %s... STOPPING\n',opts.NumAttempts,f06_filename)
-    error('ADS:Nastran','Failed after %.0f attempts %s...',opts.NumAttempts,f06_filename)
-end
-% data = f06_file.read_disp;
-% p_data = f06_file.read_aeroP;
-% f_data = f06_file.read_aeroF;
+
+function println(fid,string)
+fprintf(fid,'%s\n',string);
 end
 
