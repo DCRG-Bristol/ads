@@ -1,4 +1,4 @@
-function [res,binFolder] = run(obj,feModel,opts)
+function [res,BinFolder] = run(obj,feModel,opts)
 arguments
     obj
     feModel ads.fe.Component
@@ -10,45 +10,35 @@ arguments
 end
 
 %% create BDFs
-binFolder = ads.nast.create_tmp_bin('BinFolder',opts.BinFolder);
+BinFolder = ads.nast.create_tmp_bin(opts.BinFolder);
 
 %update boundary condition
-if ~isempty(obj.CoM) 
-    if obj.isFree
-        obj.CoM.ComponentNumbers = ads.nast.inv_dof(obj.DoFs);
-        obj.CoM.SupportNumbers = obj.DoFs;
-    else
-        obj.CoM.ComponentNumbers = 123456;
-        obj.CoM.SupportNumbers = [];
-    end
-end
+obj.UpdateBCs();
 
 % export model
-modelFile = string(fullfile(pwd,binFolder,'Source','Model','model.bdf'));
+modelFile = string(fullfile(pwd,BinFolder,'Source','Model','model.bdf'));
 feModel.Export(modelFile);
+
 % create flutter cards
-flutFile = string(fullfile(pwd,binFolder,'Source','flutter.bdf'));
+flutFile = string(fullfile(pwd,BinFolder,'Source','flutter.bdf'));
 obj.write_flutter(flutFile);
 
-% extract SPC IDs
-if ~isempty(feModel.Constraints)
-    obj.SPCs = [feModel.Constraints.ID];
-else
-    obj.SPCs = [];
-end
+% extract SPC IDs and Force IDs
+obj.ExtractIDs(feModel);
+
 %create main BDF file
-bdfFile = fullfile(pwd,binFolder,'Source','sol145.bdf');
+bdfFile = fullfile(pwd,BinFolder,'Source','sol145.bdf');
 obj.write_main_bdf(bdfFile,[modelFile,flutFile]);
 
 %% Run Analysis
-obj.executeNastran('sol145',opts.StopOnFatal,opts.NumAttempts,opts.cmdLineArgs);
+obj.executeNastran(BinFolder,opts.StopOnFatal,opts.NumAttempts,opts.cmdLineArgs);
 
 if opts.UseHdf5
-    h5_file = mni.result.hdf5(fullfile(binFolder,'bin','sol145.h5'));
+    h5_file = mni.result.hdf5(fullfile(BinFolder,'bin','sol145.h5'));
     res = h5_file.read_flutter_summary();
     res_vec = h5_file.read_flutter_eigenvector();
 else
-    f06_file = mni.result.f06(fullfile(binFolder,'bin','sol145.f06'));
+    f06_file = mni.result.f06(fullfile(BinFolder,'bin','sol145.f06'));
     res = f06_file.read_flutter();
     res_vec = f06_file.read_flutter_eigenvector();
 end

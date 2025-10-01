@@ -1,32 +1,34 @@
-function val = executeNastran(obj,name,StopOnFatal,NumAttempts,cmdLineArgs)
+function executeNastran(obj,BinFolder,StopOnFatal,NumAttempts,cmdLineArgs,Name)
     arguments
         obj ads.nast.BaseSol
-        name char
+        BinFolder string
         StopOnFatal = false;
         NumAttempts = 3;
         cmdLineArgs struct = struct.empty;
+        Name = obj.Name;
     end
     %% Run Analysis
 attempt = 1;
 while attempt<NumAttempts+1
-    ads.Log.info(['Computing ',obj.Name']);
+    ads.Log.debug(['Computing ',Name]);
     % run NASTRAN
     current_folder = pwd;
-    cd(fullfile(binFolder,'Source'))
+    cd(fullfile(BinFolder,'Source'))
     % create command
-    command = ads.nast.buildCommand([name,'.bdf'],...
+    command = ads.nast.buildCommand([Name,'.bdf'],...
         cmdLineArgs=cmdLineArgs,Silent=true);
     % save the command to a bat file for repeat execution
-    writelines(command,[name,'.bat']);
+    writelines(command,[Name,'.bat']);
     % execute the command    
+    ads.Log.trace(['Nastran Started at: ',datestr(now, 'HH:MM:SS')]);
     tic;
     system(command);
     t = toc;
-    ads.Log.debug(['Completed in ',num2str(t),' seconds']);
+    ads.Log.trace(['Nastran completed in ',num2str(t),' seconds']);
     cd(current_folder);
 
     %get Results
-    f06_filename = fullfile(binFolder,'bin',[name,'.f06']);
+    f06_filename = fullfile(BinFolder,'bin',[Name,'.f06']);
     f06_file = mni.result.f06(f06_filename);
     if f06_file.isEmpty
         if StopOnFatal

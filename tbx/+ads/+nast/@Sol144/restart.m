@@ -9,7 +9,6 @@ arguments
     opts.NumAttempts = 3;
     opts.OutputAeroMatrices logical = false;
     opts.UseHdf5 = true;
-    opts.createBat = false;
     opts.cmdLineArgs struct = struct.empty;
 end
 obj.OutputAeroMatrices = opts.OutputAeroMatrices;
@@ -19,7 +18,7 @@ if ~isdir(BinFolder)
 end
 
 % create restart file
-filename = fullfile(BinFolder,'Source','restart.bdf');
+filename = fullfile(BinFolder,'Source','sol144_restart.bdf');
 fid = fopen(filename,"w");
 mni.printing.bdf.writeFileStamp(fid);
 mni.printing.bdf.writeHeading(fid,'This file contains the restart cards for a 144 solution');
@@ -30,14 +29,9 @@ println(fid,'BEGIN BULK');
 for i = 1:length(cards)
     cards(i).writeToFile(fid);
 end
-% println(fid,'END BULK');
 fclose(fid);
 
 %% Run Analysis
-obj.executeNastran('sol144_restart',opts.StopOnFatal,opts.NumAttempts,opts.cmdLineArgs);
-end
-
-function println(fid,string)
-fprintf(fid,'%s\n',string);
+obj.executeNastran(BinFolder,opts.StopOnFatal,opts.NumAttempts,opts.cmdLineArgs,'sol144_restart');
 end
 
