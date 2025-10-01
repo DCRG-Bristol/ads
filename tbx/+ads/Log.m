@@ -3,7 +3,7 @@ classdef Log < handle
         instance = ads.Log()
     end
     properties
-        level ads.util.LogLevel = ads.util.LogLevel.Info
+        level ads.util.LogLevel = ads.util.LogLevel.Trace
     end
     methods (Access = private)
         function obj = Log()
@@ -16,6 +16,16 @@ classdef Log < handle
             end
             obj = ads.Log.instance;
             obj.level = level;
+        end
+        function trace(message,Symbol)
+            arguments
+                message string
+                Symbol string = " "
+            end
+            obj = ads.Log.instance;
+            if obj.level <= ads.util.LogLevel.Trace
+                ads.util.printing.title(message,Symbol=Symbol);
+            end
         end
         function debug(message,Symbol)
             arguments
