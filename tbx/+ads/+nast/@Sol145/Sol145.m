@@ -4,7 +4,7 @@ classdef Sol145 < ads.nast.BaseSol
     
     properties
         % generic aero parameters
-        Name = 'SOL145';
+        Name = 'sol145';
         V (:,1) double {mustBeNonzero}= 1;
         rho = 0;
         Mach = 0;
@@ -16,9 +16,6 @@ classdef Sol145 < ads.nast.BaseSol
         RefArea = 1;
         RefDensity = 1;
         LModes = 0;
-
-        DispIDs = [];
-        ForceIDs = [];
 
         % freqeuency & Structural Damping Info
         FreqRange = [0.01,50];

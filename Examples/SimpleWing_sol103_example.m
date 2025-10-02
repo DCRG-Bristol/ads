@@ -34,8 +34,8 @@ sol.g = 0;                  % disable gravity
 sol.UpdateID(IDs);
 
 % run Nastran
-BinFolder = 'ex_uw_sol103';
-sol.run(fe,Silent=false,NumAttempts=1,BinFolder=BinFolder);
+ads.Log.setLevel("Trace") % see all messages
+BinFolder = sol.run(fe,NumAttempts=1,BinFolder='ex_uw_sol103');
 
 %% load Nastran model and plot deformation for the N'th mode
 filename = fullfile(BinFolder,'bin','sol103.h5');

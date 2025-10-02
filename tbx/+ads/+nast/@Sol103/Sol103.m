@@ -4,7 +4,7 @@ classdef Sol103 < ads.nast.BaseSol
     
     properties
         % generic aero parameters
-        Name = 'SOL103';
+        Name = 'sol103';
 
         % freqeuency & Structural Damping Info
         FreqRange = [0.01,50];

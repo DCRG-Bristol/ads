@@ -4,7 +4,7 @@ classdef Divergence < ads.nast.BaseSol
     
     properties
         % generic aero parameters
-        Name = 'SOL144';
+        Name = 'sol144_div';
         Mach = 0;
 
         N_Roots = 1;

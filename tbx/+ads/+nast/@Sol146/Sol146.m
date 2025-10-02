@@ -4,7 +4,7 @@ classdef Sol146 < ads.nast.BaseSol
     
     properties
         % generic aero parameters
-        Name = 'Default SOL146:';
+        Name = 'sol146';
         V = 0;
         rho = 0;
         Mach = 0;
@@ -23,10 +23,6 @@ classdef Sol146 < ads.nast.BaseSol
         NFreq = 500;
         ModalDampingPercentage = 0;
         GustFreq = [];
-
-        DispIDs = [];
-        ForceIDs = [];
-        StressIDs = [];     % added to mirror the functionality for displacement and force.
 
         % gust data
         Gusts = ads.nast.gust.BaseSettings.empty;

@@ -72,6 +72,3 @@ mni.printing.cards.GRAV(obj.Grav_ID,obj.g*obj.LoadFactor,obj.Grav_Vector)...
     .writeToFile(fid);
 fclose(fid);
 end
-function println(fid,string)
-fprintf(fid,'%s\n',string);
-end

@@ -50,8 +50,8 @@ sol.LoadFactor = 0;
 sol.UpdateID(IDs);
 
 % run Nastran
-BinFolder = 'ex_uw_sol144';
-sol.run(fe,Silent=false,NumAttempts=1,BinFolder=BinFolder);
+ads.Log.setLevel("Warn");
+BinFolder = sol.run(fe,NumAttempts=1,BinFolder='ex_uw_sol144');
 
 %% load Nastran model and plot deformation
 filename = fullfile(BinFolder,'bin','sol144.h5');

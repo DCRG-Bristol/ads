@@ -14,18 +14,22 @@ classdef (Abstract) BaseSol < handle
         Grav_Vector = [0;0;1];
 
         SPCs = [];
+
+        DispIDs = [];
         ForceIDs = [];
-        StressIDs = [];     % added to mirror the functionality of the sol146 class
+        StressIDs = [];     % added to mirror the functionality for displacement and force.
         
 
         % CoM Info for Boundary Constraints
         isFree = false; % if is Free a Boundary condition will be applied to  the Centre of Mass
-        CoM = ads.fe.Constraint.empty;
+        CoM ads.fe.Constraint = ads.fe.Constraint.empty;
         DoFs = [];
     end
     
     methods(Abstract)
         ids = UpdateID(obj,ids)
+
+        write_main_bdf(obj,filename,includes)
     end
 
     methods

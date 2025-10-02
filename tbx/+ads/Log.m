@@ -10,6 +10,9 @@ classdef Log < handle
         end
     end
     methods(Static)
+        function val = getLevel()
+            val = ads.Log.instance.level;
+        end
         function setLevel(level)
             arguments
                 level (1,1) ads.util.LogLevel

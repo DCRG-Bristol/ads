@@ -24,7 +24,7 @@ while attempt<NumAttempts+1
     tic;
     system(command);
     t = toc;
-    ads.Log.trace(['Nastran completed in ',num2str(t),' seconds']);
+    ads.Log.debug(['Nastran completed in ',num2str(t),' seconds']);
     cd(current_folder);
 
     %get Results

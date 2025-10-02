@@ -47,6 +47,3 @@ function write_case_control(obj,fid)
     println(fid,'AEROF=ALL');
     println(fid,'APRES=ALL');
 end
-function println(fid,string)
-fprintf(fid,'%s\n',string);
-end

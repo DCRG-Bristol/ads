@@ -43,9 +43,7 @@ IDs = fe.UpdateIDs();
 
 
 % create the 'sol' object
-idx = [fe.Points.Tag] == "Root Connection";
-ID = [fe.Points(idx).ID];
-sol = ads.nast.Sol146(ID);
+sol = ads.nast.Sol146(fe.Constraints(1));
 sol.FreqRange = [0 200];
 sol.V = U;
 sol.Mach = 0;
@@ -67,8 +65,7 @@ end
 sol.UpdateID(IDs);
 
 % run Nastran
-BinFolder = 'ex_uw_sol146';
-sol.run(fe,Silent=false,NumAttempts=1,BinFolder=BinFolder);
+BinFolder = sol.run(fe,NumAttempts=1,BinFolder='ex_uw_sol146');
 
 %% plot WRBM response
 res = mni.result.hdf5(fullfile(BinFolder,'bin','sol146.h5'));

@@ -42,7 +42,8 @@ sol.UpdateID(IDs)
 
 % run Nastran
 BinFolder = 'ex_uw_sol101';
-sol.run(fe,Silent=false,NumAttempts=1,BinFolder=BinFolder);
+ads.Log.setLevel("Trace") % see all messages
+sol.run(fe,NumAttempts=1,BinFolder=BinFolder);
 
 % read result
 filename = fullfile(BinFolder,'bin','sol101.h5');

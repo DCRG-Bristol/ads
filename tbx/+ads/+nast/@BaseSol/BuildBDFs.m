@@ -1,4 +1,4 @@
-function BinFolder = BuildBDFs(obj,feModel,BinFolder)
+function BinFolder = BuildBDFs(obj,feModel,BinFolder,extraFiles)
     % update solution properties and boundary condition
     obj.UpdateBCs();
     obj.ExtractIDs(feModel);

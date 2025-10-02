@@ -4,7 +4,7 @@ classdef Sol144 < ads.nast.BaseSol
     
     properties
         % generic aero parameters
-        Name = 'SOL144';
+        Name = 'sol144';
 
         %trim Parameters
         ANGLEA = ads.nast.TrimParameter('ANGLEA',0,'Rigid Body');
@@ -43,6 +43,9 @@ classdef Sol144 < ads.nast.BaseSol
         SPC_ID = 3;
         Grav_ID = 4;
         Load_ID = 5;
+    end
+    properties(GetAccess = private,SetAccess = private)
+        trimObjs ads.nast.TrimParameter = ads.nast.TrimParameter.empty;
     end
     
     methods

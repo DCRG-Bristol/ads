@@ -1,9 +1,8 @@
-function write_main_bdf(obj,filename,includes,opts)
+function write_main_bdf(obj,filename,includes)
 arguments
     obj
     filename string
     includes (:,1) string
-    opts.trimObjs = [];
 end
     fid = fopen(filename,"w");
     mni.printing.bdf.writeFileStamp(fid)
@@ -52,7 +51,4 @@ end
     mni.printing.cards.EIGC(obj.Div_ID,obj.eig_meth,obj.N_Roots).writeToFile(fid);
     fclose(fid);
 
-end
-function println(fid,string)
-fprintf(fid,'%s\n',string);
 end

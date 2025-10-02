@@ -44,8 +44,7 @@ end
          .writeToFile(fid);
 %     mni.printing.cards.EIGR(10,'MGIV','ND',42,'NORM','MAX')...
 %         .writeToFile(fid);
+
+    obj.write_sol144_cards(fid);
     fclose(fid);
-end
-function println(fid,string)
-fprintf(fid,'%s\n',string);
 end

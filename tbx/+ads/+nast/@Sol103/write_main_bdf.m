@@ -30,7 +30,6 @@ else
     println(fid,'GROUNDCHECK=NO');
 end
 
-% println(fid,'GROUNDCHECK=YES');
 mni.printing.bdf.writeHeading(fid,'Begin Bulk')
 %% Bulk Data
 println(fid,'BEGIN BULK')
@@ -72,7 +71,4 @@ mni.printing.cards.PARAM('HFREQ','r',obj.FreqRange(2)).writeToFile(fid);
 mni.printing.cards.PARAM('LFREQFL','r',obj.FreqRange(1)).writeToFile(fid);
 mni.printing.cards.PARAM('HFREQFL','r',obj.FreqRange(2)).writeToFile(fid);
 fclose(fid);
-end
-function println(fid,string)
-fprintf(fid,'%s\n',string);
 end

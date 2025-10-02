@@ -112,8 +112,8 @@ end
          .writeToFile(fid);
 %     mni.printing.cards.EIGR(10,'MGIV','ND',42,'NORM','MAX')...
 %         .writeToFile(fid);
+
+    % write gust specific cards
+    obj.write_gust(fid);
     fclose(fid);
-end
-function println(fid,string)
-fprintf(fid,'%s\n',string);
 end

@@ -4,7 +4,7 @@ classdef Sol101 < ads.nast.BaseSol
     
     properties
         % generic aero parameters
-        Name = 'SOL101';
+        Name = 'sol101';
 
         SPC_ID = 1;
         Grav_ID = 2;
