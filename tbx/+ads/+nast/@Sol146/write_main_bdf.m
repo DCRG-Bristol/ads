@@ -38,15 +38,12 @@ end
     
     % if any gusts are turbulence cases then we'll want the Power Spectral Density Function (PSDF) in output.
     if turbCount > 0
-        outRqsts = ["SORT1","REAL","PSDF"];
-    else
-        outRqsts = ["SORT1","REAL"];
+        for i = 1:length(obj.Outputs)
+            obj.Outputs(i).Args = unique([obj.Outputs(i).Args,"PSDF"]);
+        end
     end
 
-    obj.WriteOutputFormat(fid,'DISPLACEMENT',1,obj.DispIDs,outRqsts);
-    obj.WriteOutputFormat(fid,'FORCE',2,obj.ForceIDs,outRqsts);
-    obj.WriteOutputFormat(fid,'STRESS',3,obj.StressIDs,outRqsts);
-    obj.WriteOutputFormat(fid,'STRAIN',3,obj.StrainIDs,outRqsts);
+    obj.Outputs.WriteToFile(fid);
     println(fid,'GROUNDCHECK=NO');
     
     println(fid,'MONITOR = ALL');    

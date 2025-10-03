@@ -5,9 +5,6 @@ classdef (Abstract) BaseSol < handle
         Name char
     end
     properties
-        % generic parameters
-        WriteToF06 = true; % if false minimises whats written to f06.
-
         % grav info
         LoadFactor = 1;
         g = 9.81;
@@ -15,10 +12,7 @@ classdef (Abstract) BaseSol < handle
 
         SPCs = [];
 
-        DispIDs = inf;       % IDs of displacements to output, if nan none output, if inf all output, if a list those IDs
-        ForceIDs = inf;      % IDs of forces to output, if nan none output, if inf all output, if a list those IDs
-        StressIDs = nan;     % IDs of stresses to output, if nan none output, if inf all output, if a list those IDs
-        StrainIDs = nan;     % IDs of strains to output, if nan none output, if inf all output, if a list those IDs
+        Outputs ads.nast.OutRequest = ads.nast.OutRequest('DISP');
 
         % CoM Info for Boundary Constraints
         isFree = false; % if is Free a Boundary condition will be applied to  the Centre of Mass

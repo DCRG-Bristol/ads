@@ -66,9 +66,9 @@ sol.UpdateID(IDs);
 
 % run Nastran
 ads.Log.setLevel("Trace");
-sol.WriteToF06 = false; % minimise output in F06
-sol.ForceIDs = inf;
-sol.StressIDs = inf;
+sol.Outputs(end+1) = ads.nast.OutRequest('FORCE');
+sol.Outputs(end+1) = ads.nast.OutRequest('STRESS');
+[sol.Outputs.WriteToF06] = deal(false); % minimise output in F06 file
 BinFolder = sol.run(fe,NumAttempts=1,BinFolder='ex_uw_sol146');
 
 %% plot WRBM response

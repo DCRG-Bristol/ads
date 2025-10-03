@@ -35,7 +35,8 @@ sol.UpdateID(IDs);
 
 % run Nastran
 ads.Log.setLevel("Trace") % see all messages
-sol.WriteToF06 = false; % minimise output in F06
+sol.Outputs(end+1) = ads.nast.OutRequest('GPFORCE');
+[sol.Outputs.WriteToF06] = deal(false); % minimise output in F06 file
 BinFolder = sol.run(fe,NumAttempts=1,BinFolder='ex_uw_sol103');
 
 %% load Nastran model and plot deformation for the N'th mode

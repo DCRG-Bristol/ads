@@ -58,7 +58,7 @@ sol.UpdateID(IDs);
 
 % run Nastran
 ads.Log.setLevel("Trace");
-sol.WriteToF06 = false;
+[sol.Outputs.WriteToF06] = deal(false); % minimise output in F06 file
 BinFolder = sol.run(fe,NumAttempts=1,BinFolder='ex_ffwt_sol145');
 res = sol.ExtractResults(BinFolder);
 

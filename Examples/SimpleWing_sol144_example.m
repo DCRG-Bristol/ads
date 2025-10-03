@@ -51,7 +51,7 @@ sol.UpdateID(IDs);
 
 % run Nastran
 ads.Log.setLevel("Trace");
-sol.WriteToF06 = false; % minimise output in F06
+[sol.Outputs.WriteToF06] = deal(false); % minimise output in F06 file
 BinFolder = sol.run(fe,NumAttempts=1,BinFolder='ex_uw_sol144');
 
 %% load Nastran model and plot deformation

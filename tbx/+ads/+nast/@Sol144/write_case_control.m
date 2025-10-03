@@ -30,10 +30,7 @@ function write_case_control(obj,fid)
     println(fid,'SPCFORCES = ALL');
 
 
-    obj.WriteOutputFormat(fid,'DISPLACEMENT',1,obj.DispIDs);
-    obj.WriteOutputFormat(fid,'FORCE',2,obj.ForceIDs);
-    obj.WriteOutputFormat(fid,'STRESS',3,obj.StressIDs);
-    obj.WriteOutputFormat(fid,'STRAIN',3,obj.StrainIDs);
+    obj.Outputs.WriteToFile(fid);
     println(fid,'GROUNDCHECK=NO');
 
     println(fid,'AEROF=ALL');

@@ -43,7 +43,10 @@ sol.UpdateID(IDs);
 % run Nastran
 BinFolder = 'ex_uw_sol101';
 ads.Log.setLevel("Trace") % see all messages
-sol.WriteToF06 = false; % minimise output in F06 file
+sol.Outputs(end+1) = ads.nast.OutRequest('ACCELERATION');
+sol.Outputs(end+1) = ads.nast.OutRequest('GPFORCE');
+sol.Outputs(end+1) = ads.nast.OutRequest('FORCE');
+[sol.Outputs.WriteToF06] = deal(false); % minimise output in F06 file
 sol.run(fe,NumAttempts=1,BinFolder=BinFolder);
 
 % read result

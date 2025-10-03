@@ -19,10 +19,7 @@ mni.printing.bdf.writeHeading(fid,'Case Control')
 println(fid,'ECHO=NONE');
 
 % write output requests.
-obj.WriteOutputFormat(fid,'DISPLACEMENT',1,obj.DispIDs);
-obj.WriteOutputFormat(fid,'FORCE',2,obj.ForceIDs);
-obj.WriteOutputFormat(fid,'STRESS',3,obj.StressIDs);
-obj.WriteOutputFormat(fid,'STRAIN',3,obj.StrainIDs);
+obj.Outputs.WriteToFile(fid);
 println(fid,'GROUNDCHECK=NO');
 
 fprintf(fid,'SPC=%.0f\n',obj.SPC_ID);

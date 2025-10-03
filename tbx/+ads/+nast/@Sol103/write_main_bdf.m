@@ -20,10 +20,7 @@ println(fid,'ECHO=NONE');
 fprintf(fid,'METHOD=%.0f\n',obj.EigR_ID);
 fprintf(fid,'SPC=%.0f\n',obj.SPC_ID);
 
-obj.WriteOutputFormat(fid,'DISPLACEMENT',1,obj.DispIDs);
-obj.WriteOutputFormat(fid,'FORCE',2,obj.ForceIDs);
-obj.WriteOutputFormat(fid,'STRESS',3,obj.StressIDs);
-obj.WriteOutputFormat(fid,'STRAIN',3,obj.StrainIDs);
+obj.Outputs.WriteToFile(fid);
 println(fid,'GROUNDCHECK=NO');
 
 mni.printing.bdf.writeHeading(fid,'Begin Bulk')
