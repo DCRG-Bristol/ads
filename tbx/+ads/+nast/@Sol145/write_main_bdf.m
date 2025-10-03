@@ -24,7 +24,7 @@ end
     fprintf(fid,'SPC=%.0f\n',obj.SPC_ID);
 
     obj.Outputs.WriteToFile(fid);
-    println(fid,'GROUNDCHECK=NO');
+    obj.writeGroundCheck(fid);
 
     println(fid,'MONITOR = ALL');
     println(fid,'AEROF=ALL');

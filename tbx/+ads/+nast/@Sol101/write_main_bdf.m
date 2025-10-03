@@ -20,7 +20,7 @@ println(fid,'ECHO=NONE');
 
 % write output requests.
 obj.Outputs.WriteToFile(fid);
-println(fid,'GROUNDCHECK=NO');
+obj.writeGroundCheck(fid);
 
 fprintf(fid,'SPC=%.0f\n',obj.SPC_ID);
 fprintf(fid,'LOAD=%.0f\n',obj.Load_ID);

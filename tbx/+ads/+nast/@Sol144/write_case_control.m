@@ -31,7 +31,7 @@ function write_case_control(obj,fid)
 
 
     obj.Outputs.WriteToFile(fid);
-    println(fid,'GROUNDCHECK=NO');
+    obj.writeGroundCheck(fid);
 
     println(fid,'AEROF=ALL');
     println(fid,'APRES=ALL');

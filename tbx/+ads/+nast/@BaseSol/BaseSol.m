@@ -18,6 +18,8 @@ classdef (Abstract) BaseSol < handle
         isFree = false; % if is Free a Boundary condition will be applied to  the Centre of Mass
         CoM ads.fe.Constraint = ads.fe.Constraint.empty;
         DoFs = [];
+
+        GroundCheck logical = false; % if true a ground check will be performed
     end
 
     
@@ -30,6 +32,13 @@ classdef (Abstract) BaseSol < handle
     methods
         function str = config_string(obj)
             str = '';
+        end
+        function writeGroundCheck(obj,fid)
+            if obj.GroundCheck
+                fprintf(fid,'GROUNDCHECK=YES\n');
+            else
+                fprintf(fid,'GROUNDCHECK=NO\n');
+            end
         end
     end
 end

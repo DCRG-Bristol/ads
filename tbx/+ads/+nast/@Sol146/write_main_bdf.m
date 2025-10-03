@@ -44,7 +44,7 @@ end
     end
 
     obj.Outputs.WriteToFile(fid);
-    println(fid,'GROUNDCHECK=NO');
+    obj.writeGroundCheck(fid);
     
     println(fid,'MONITOR = ALL');    
     

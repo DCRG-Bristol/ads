@@ -21,7 +21,7 @@ fprintf(fid,'METHOD=%.0f\n',obj.EigR_ID);
 fprintf(fid,'SPC=%.0f\n',obj.SPC_ID);
 
 obj.Outputs.WriteToFile(fid);
-println(fid,'GROUNDCHECK=NO');
+obj.writeGroundCheck(fid);
 
 mni.printing.bdf.writeHeading(fid,'Begin Bulk')
 %% Bulk Data
