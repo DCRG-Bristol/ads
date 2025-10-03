@@ -1,8 +1,9 @@
-function write_main_bdf(obj,filename,includes)
+function write_main_bdf(obj,filename,includes,feModel)
 arguments
     obj
     filename string
     includes (:,1) string
+    feModel ads.fe.Component
 end
     fid = fopen(filename,"w");
     mni.printing.bdf.writeFileStamp(fid)

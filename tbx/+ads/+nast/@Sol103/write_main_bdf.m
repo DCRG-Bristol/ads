@@ -1,8 +1,9 @@
-function write_main_bdf(obj,filename,includes)
+function write_main_bdf(obj,filename,includes,feModel)
 arguments
     obj
     filename string
     includes (:,1) string
+    feModel ads.fe.Component
 end
 fid = fopen(filename,"w");
 mni.printing.bdf.writeFileStamp(fid)
@@ -18,17 +19,12 @@ println(fid,'ECHO=NONE');
 
 fprintf(fid,'METHOD=%.0f\n',obj.EigR_ID);
 fprintf(fid,'SPC=%.0f\n',obj.SPC_ID);
-if obj.WriteToF06
-    println(fid,'DISPLACEMENT(SORT1,REAL)=ALL');
-    println(fid,'FORCE(SORT1,REAL)=ALL');
-    println(fid,'VECTOR(SORT1,REAL)=ALL');
-    println(fid,'GROUNDCHECK=YES');
-else
-    println(fid,'DISPLACEMENT(SORT1,REAL,PLOT)=ALL');
-    println(fid,'FORCE(SORT1,REAL,PLOT)=ALL');
-    println(fid,'VECTOR(SORT1,REAL,PLOT)=ALL');
-    println(fid,'GROUNDCHECK=NO');
-end
+
+obj.WriteOutputFormat(fid,'DISPLACEMENT',1,obj.DispIDs);
+obj.WriteOutputFormat(fid,'FORCE',2,obj.ForceIDs);
+obj.WriteOutputFormat(fid,'STRESS',3,obj.StressIDs);
+obj.WriteOutputFormat(fid,'STRAIN',3,obj.StrainIDs);
+println(fid,'GROUNDCHECK=NO');
 
 mni.printing.bdf.writeHeading(fid,'Begin Bulk')
 %% Bulk Data

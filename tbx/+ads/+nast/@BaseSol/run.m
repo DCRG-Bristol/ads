@@ -21,7 +21,7 @@ feModel.Export(modelFile);
 
 % create main BDF file
 bdfFile = fullfile(pwd,BinFolder,'Source',[obj.Name,'.bdf']);
-obj.write_main_bdf(bdfFile,[modelFile]);
+obj.write_main_bdf(bdfFile,[modelFile],feModel);
 
 %% Run Analysis
 obj.executeNastran(BinFolder,opts.StopOnFatal,opts.NumAttempts,opts.cmdLineArgs);

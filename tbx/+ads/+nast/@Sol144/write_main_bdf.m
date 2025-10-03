@@ -1,8 +1,9 @@
-function write_main_bdf(obj,filename,includes)
+function write_main_bdf(obj,filename,includes,feModel)
 arguments
     obj
     filename string
     includes (:,1) string
+    feModel ads.fe.Component
 end
     fid = fopen(filename,"w");
     mni.printing.bdf.writeFileStamp(fid)
@@ -20,10 +21,17 @@ end
     mni.printing.bdf.writeComment(fid, 'SPCs')
     mni.printing.cards.SPCADD(obj.SPC_ID,obj.SPCs).writeToFile(fid);
     % write GRAV + loads
+    % get IDs of extra forces
+    IDs = [];
+    if ~isempty(feModel.Forces)
+        IDs = [IDs,reshape([feModel.Forces.ID],1,[])];
+    end
+    if ~isempty(feModel.Moments)
+        IDs = [IDs,reshape([feModel.Moments.ID],1,[])];
+    end
     mni.printing.bdf.writeComment(fid,'Gravity Card')
     mni.printing.bdf.writeColumnDelimiter(fid,'8');
-    mni.printing.cards.LOAD(obj.Load_ID,1,[obj.Grav_ID;obj.ForceIDs(:)],[1;ones(numel(obj.ForceIDs),1)]).writeToFile(fid);
-    % mni.printing.cards.LOAD(obj.Load_ID,1,obj.ForceIDs',ones(1,length(obj.ForceIDs))).writeToFile(fid);
+    mni.printing.cards.LOAD(obj.Load_ID,1,[obj.Grav_ID,IDs],[1,ones(1,numel(IDs))]).writeToFile(fid);
     mni.printing.cards.GRAV(obj.Grav_ID,obj.g*obj.LoadFactor,obj.Grav_Vector)...
         .writeToFile(fid);
     % genric options 

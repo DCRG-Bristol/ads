@@ -35,7 +35,7 @@ while attempt<NumAttempts+1
             error('ADS:Nastran','Fatal error detected in f06 file %s...',f06_filename)
         else
             attempt = attempt + 1;
-            str = sprintf('%s is empty on attempt %.0f...\n',f06_filename,attempt);
+            str = [sprintf('%s is empty on attempt %.0f...',f06_filename,attempt),'\n'];
             ads.Log.warn(str);
             continue           
         end
@@ -44,7 +44,7 @@ while attempt<NumAttempts+1
             error('ADS:Nastran','Fatal error detected in f06 file %s...',f06_filename)
         else
             attempt = attempt + 1;
-            str = sprintf('Fatal error detected on attempt %.0f in f06 file %s... \n',attempt,f06_filename);
+            str = [sprintf('Fatal error detected on attempt %.0f in f06 file %s...',attempt,f06_filename),'\n'];
             ads.Log.warn(str);
             continue
         end

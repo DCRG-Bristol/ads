@@ -1,8 +1,9 @@
-function write_main_bdf(obj,filename,includes)
+function write_main_bdf(obj,filename,includes,feModel)
 arguments
     obj
     filename string
     includes (:,1) string
+    feModel ads.fe.Component
 end
     fid = fopen(filename,"w");
     mni.printing.bdf.writeFileStamp(fid)
@@ -37,43 +38,16 @@ end
     
     % if any gusts are turbulence cases then we'll want the Power Spectral Density Function (PSDF) in output.
     if turbCount > 0
-        outRqstStr = '(SORT1,REAL,PSDF)';
+        outRqsts = ["SORT1","REAL","PSDF"];
     else
-        outRqstStr = '(SORT1,REAL)';
+        outRqsts = ["SORT1","REAL"];
     end
 
-    % write output requests.
-    if ~isempty(obj.DispIDs)
-        if any(isnan(obj.DispIDs))
-            mni.printing.cases.SET(1,obj.EPoint_ID).writeToFile(fid);
-        else
-            mni.printing.cases.SET(1,[obj.DispIDs,obj.EPoint_ID]).writeToFile(fid);
-        end
-        println(fid,['DISPLACEMENT', outRqstStr, ' = 1']);
-    else
-        println(fid,['DISPLACEMENT', outRqstStr,' = ALL']);
-    end
-    if ~isempty(obj.ForceIDs)
-        if any(isnan(obj.ForceIDs))
-            println(fid,['FORCE', outRqstStr, ' = NONE']);
-        else
-            mni.printing.cases.SET(2,obj.ForceIDs).writeToFile(fid);
-            println(fid,['FORCE', outRqstStr, ' = 2']);
-        end
-    else
-        println(fid,['FORCE', outRqstStr, ' = ALL']);
-    end
-    % Add in a case to print stresses if we want them. Can use similar syntax for strain...
-    if ~isempty(obj.StressIDs)
-        if any(isnan(obj.StressIDs))
-            println(fid,['STRESS', outRqstStr, ' = NONE']);
-        else
-            mni.printing.cases.SET(3,obj.StressIDs).writeToFile(fid);
-            println(fid,['STRESS', outRqstStr, ' = 3']);
-        end
-    else
-        println(fid,['STRESS', outRqstStr, ' = ALL']);
-    end
+    obj.WriteOutputFormat(fid,'DISPLACEMENT',1,obj.DispIDs,outRqsts);
+    obj.WriteOutputFormat(fid,'FORCE',2,obj.ForceIDs,outRqsts);
+    obj.WriteOutputFormat(fid,'STRESS',3,obj.StressIDs,outRqsts);
+    obj.WriteOutputFormat(fid,'STRAIN',3,obj.StrainIDs,outRqsts);
+    println(fid,'GROUNDCHECK=NO');
     
     println(fid,'MONITOR = ALL');    
     

@@ -1,8 +1,9 @@
-function write_main_bdf(obj,filename,includes)
+function write_main_bdf(obj,filename,includes,feModel)
 arguments
     obj
     filename string
     includes (:,1) string
+    feModel ads.fe.Component
 end
     fid = fopen(filename,"w");
     mni.printing.bdf.writeFileStamp(fid)
@@ -21,29 +22,14 @@ end
     println(fid,sprintf('FMETHOD = %.0f',obj.FlutterID));
     println(fid,sprintf('METHOD = %.0f',obj.EigR_ID));
     fprintf(fid,'SPC=%.0f\n',obj.SPC_ID);
-    if ~isempty(obj.DispIDs)
-        if any(isnan(obj.DispIDs))
-            println(fid,'DISPLACEMENT(SORT1,REAL)= NONE');
-        else
-            mni.printing.cases.SET(1,obj.DispIDs).writeToFile(fid);
-            println(fid,'DISPLACEMENT(SORT1,REAL)= 1');
-        end
-    else
-        println(fid,'DISPLACEMENT(SORT1,REAL)= ALL');
-    end
-    if ~isempty(obj.ForceIDs)
-        if any(isnan(obj.ForceIDs))
-            println(fid,'FORCE(SORT1,REAL)= NONE');
-        else
-            mni.printing.cases.SET(2,obj.ForceIDs).writeToFile(fid);
-            println(fid,'FORCE(SORT1,REAL)= 2');
-        end
-    else
-        println(fid,'FORCE(SORT1,REAL)= ALL');
-    end
-    println(fid,'MONITOR = ALL');  
 
-    println(fid,'GROUNDCHECK=YES');
+    obj.WriteOutputFormat(fid,'DISPLACEMENT',1,obj.DispIDs);
+    obj.WriteOutputFormat(fid,'FORCE',2,obj.ForceIDs);
+    obj.WriteOutputFormat(fid,'STRESS',3,obj.StressIDs);
+    obj.WriteOutputFormat(fid,'STRAIN',3,obj.StrainIDs);
+    println(fid,'GROUNDCHECK=NO');
+
+    println(fid,'MONITOR = ALL');
     println(fid,'AEROF=ALL');
     println(fid,'APRES=ALL');
     mni.printing.bdf.writeHeading(fid,'Begin Bulk')

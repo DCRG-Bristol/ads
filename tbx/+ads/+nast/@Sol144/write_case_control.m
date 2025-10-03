@@ -28,22 +28,14 @@ function write_case_control(obj,fid)
     fprintf(fid,'LOAD=%.0f\n',obj.Load_ID);
     println(fid,'MONITOR = ALL');
     println(fid,'SPCFORCES = ALL');
-    println(fid,'FORCE(SORT1,REAL) = ALL');         % EDW - leave this as is: sol144.run seems to have some additional functionality which utilises the forceIDs object in a different way to sol146 
-    println(fid,'DISPLACEMENT(SORT1,REAL)=ALL');    % EDW - Again, leave this alone.
 
-    % request stresses
-    if ~isempty(obj.StressIDs)
-        if any(isnan(obj.StressIDs))
-            println(fid,'STRESS(SORT1,REAL)= NONE');
-        else
-            mni.printing.cases.SET(3,obj.StressIDs).writeToFile(fid);
-            println(fid,'STRESS(SORT1,REAL)= 3');
-        end
-    else
-        println(fid,'STRESS(SORT1,REAL)= ALL');
-    end
-    
-    println(fid,'GROUNDCHECK=YES');
+
+    obj.WriteOutputFormat(fid,'DISPLACEMENT',1,obj.DispIDs);
+    obj.WriteOutputFormat(fid,'FORCE',2,obj.ForceIDs);
+    obj.WriteOutputFormat(fid,'STRESS',3,obj.StressIDs);
+    obj.WriteOutputFormat(fid,'STRAIN',3,obj.StrainIDs);
+    println(fid,'GROUNDCHECK=NO');
+
     println(fid,'AEROF=ALL');
     println(fid,'APRES=ALL');
 end
