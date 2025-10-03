@@ -47,6 +47,8 @@ sol.FlutterMethod = 'PKNL';
 sol.UpdateID(IDs);
 
 % run Nastran
+ads.Log.setLevel("Trace");
+sol.WriteToF06 = false; % minimise output in F06
 BinFolder = sol.run(fe,NumAttempts=1,BinFolder='ex_ffwt_sol145');
 res = sol.ExtractResults(BinFolder);
 %% plot V-G diagrams

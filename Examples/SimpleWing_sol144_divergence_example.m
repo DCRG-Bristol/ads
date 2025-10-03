@@ -57,7 +57,8 @@ for si=1:length(Sweeps)
 
     % run Nastran
     BinFolder = sprintf('ex_sol144_div_b%.0f_sw_%.0f',BarChordwisePos*100,Sweep);
-    ads.Log.setLevel("Debug")
+    ads.Log.setLevel("Debug");
+    sol.WriteToF06 = false; % minimise output in F06
     sol.run(fe,NumAttempts=1,BinFolder=BinFolder);
 
     %% load Nastran model and plot deformation

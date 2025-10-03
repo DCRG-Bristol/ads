@@ -26,7 +26,7 @@ ax.Clipping = false;
 ax.ZAxis.Direction = "reverse";
 axis equal
 
-%% Setup 103 Analysis with Nastran
+%% Setup 146 Analysis with Nastran
 U = 18;  % velocity in m/s
 
 %flatten the FE model and update the element ID numbers
@@ -65,6 +65,10 @@ end
 sol.UpdateID(IDs);
 
 % run Nastran
+ads.Log.setLevel("Trace");
+sol.WriteToF06 = false; % minimise output in F06
+sol.ForceIDs = inf;
+sol.StressIDs = inf;
 BinFolder = sol.run(fe,NumAttempts=1,BinFolder='ex_uw_sol146');
 
 %% plot WRBM response
@@ -85,7 +89,7 @@ for i = 1:length(Freqs)
     p.DisplayName = sprintf('Freq: %.0f Hz', Freqs(i));
     nexttile(2);
     hold on
-    p = plot(data(i).t,data(i).Force.Mx(:,1));
+    p = plot(data(i).t,data(i).BeamForce.Mx(:,1));
     p.DisplayName = sprintf('Freq: %.0f Hz', Freqs(i));
 end
 nexttile(1);
