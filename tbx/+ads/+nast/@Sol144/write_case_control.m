@@ -1,4 +1,6 @@
 function write_case_control(obj,fid)
+    println(fid,'ECHOOFF');
+    println(fid,'ECHO=NONE');
     mni.printing.bdf.writeHeading(fid,'Case Control');
     mni.printing.bdf.writeColumnDelimiter(fid,'8');
     println(fid,'NASTRAN NLINES=999999');

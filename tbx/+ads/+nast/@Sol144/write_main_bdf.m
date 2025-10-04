@@ -6,6 +6,7 @@ arguments
     feModel ads.fe.Component
 end
     fid = fopen(filename,"w");
+    println(fid,'ECHOOFF');
     mni.printing.bdf.writeFileStamp(fid)
     %% Case Control Section
     mni.printing.bdf.writeComment(fid,'This file contain the main cards + case control for a 144 solution')
@@ -54,5 +55,6 @@ end
 %         .writeToFile(fid);
 
     obj.write_sol144_cards(fid);
+    println(fid,'ENDDATA')
     fclose(fid);
 end
