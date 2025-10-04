@@ -6,6 +6,7 @@ arguments
     feModel ads.fe.Component
 end
 fid = fopen(filename,"w");
+println(fid,'ECHOOFF');
 mni.printing.bdf.writeFileStamp(fid)
 %% Case Control Section
 mni.printing.bdf.writeComment(fid,'This file contain the main cards + case control for a 101 solution')
@@ -15,8 +16,10 @@ println(fid,'NASTRAN NLINES=999999');
 println(fid,'SOL 101');
 
 println(fid,'CEND');
-mni.printing.bdf.writeHeading(fid,'Case Control')
+println(fid,'ECHOOFF');
 println(fid,'ECHO=NONE');
+mni.printing.bdf.writeHeading(fid,'Case Control')
+
 
 % write output requests.
 obj.Outputs.WriteToFile(fid);
@@ -73,5 +76,6 @@ mni.printing.bdf.writeColumnDelimiter(fid,'8');
 mni.printing.cards.LOAD(obj.Load_ID,1,[obj.Grav_ID,IDs],[1,ones(size(IDs))]).writeToFile(fid);
 mni.printing.cards.GRAV(obj.Grav_ID,obj.g*obj.LoadFactor,obj.Grav_Vector)...
     .writeToFile(fid);
+println(fid,'ENDDATA');
 fclose(fid);
 end

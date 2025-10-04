@@ -6,6 +6,7 @@ arguments
     feModel ads.fe.Component
 end
     fid = fopen(filename,"w");
+    println(fid,'ECHOOFF');
     mni.printing.bdf.writeFileStamp(fid)
     %% Case Control Section
     mni.printing.bdf.writeComment(fid,'This file contain the main cards + case control for a 146 solution')
@@ -17,11 +18,11 @@ end
     println(fid,'SOL 146');
     println(fid,'TIME 10000');
     println(fid,'CEND');
-    mni.printing.bdf.writeHeading(fid,'Case Control')
+    println(fid,'ECHOOFF');
     println(fid,'ECHO=NONE');
+    mni.printing.bdf.writeHeading(fid,'Case Control')
     fprintf(fid,'SPC=%.0f\n',obj.SPC_ID);
     println(fid,'RESVEC = YES');
-    println(fid,'GROUNDCHECK=YES');
     println(fid,'K2PP = STIFF');   
     println(fid,sprintf('SDAMP = %.0f',obj.SDAMP_ID));
     println(fid,sprintf('FREQ = %.0f',obj.FREQ_ID));
@@ -86,5 +87,6 @@ end
 
     % write gust specific cards
     obj.write_gust(fid);
+    println(fid,'ENDDATA')
     fclose(fid);
 end
