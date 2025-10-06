@@ -59,7 +59,8 @@ for si=1:length(Sweeps)
     BinFolder = sprintf('ex_sol144_div_b%.0f_sw_%.0f',BarChordwisePos*100,Sweep);
     ads.Log.setLevel("Debug");
     [sol.Outputs.WriteToF06] = deal(false); % minimise output in F06 file
-    sol.run(fe,NumAttempts=1,BinFolder=BinFolder);
+    BinFolder = sol.build(fe,BinFolder);
+    sol.run(BinFolder);
 
     %% load Nastran model and plot deformation
     filename = fullfile(BinFolder,'bin','sol144_div.h5');

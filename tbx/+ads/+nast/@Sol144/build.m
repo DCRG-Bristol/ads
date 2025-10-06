@@ -1,13 +1,8 @@
-function BinFolder = run(obj,feModel,opts,sol144Opts)
+function BinFolder = build(obj,feModel,BinFolder,sol144Opts)
 arguments
     obj
     feModel
-
-    opts.StopOnFatal = false;
-    opts.NumAttempts = 3;
-    opts.BinFolder string = '';
-    opts.cmdLineArgs struct = struct.empty;
-
+    BinFolder string = '';
     sol144Opts.trimObjs = ads.nast.TrimParameter.empty;
     sol144Opts.OutputAeroMatrices logical = false;
 end
@@ -21,7 +16,6 @@ end
 obj.trimObjs = sol144Opts.trimObjs;
 
 % run analysis
-optsCell = namedargs2cell(opts);
-BinFolder = run@ads.nast.BaseSol(obj,feModel,optsCell{:});
+BinFolder = build@ads.nast.BaseSol(obj,feModel,BinFolder);
 end
 

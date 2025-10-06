@@ -47,7 +47,8 @@ sol.Outputs(end+1) = ads.nast.OutRequest('ACCELERATION');
 sol.Outputs(end+1) = ads.nast.OutRequest('GPFORCE');
 sol.Outputs(end+1) = ads.nast.OutRequest('FORCE');
 [sol.Outputs.WriteToF06] = deal(false); % minimise output in F06 file
-sol.run(fe,NumAttempts=1,BinFolder=BinFolder);
+BinFolder = sol.build(fe,BinFolder);
+sol.run(BinFolder);
 
 % read result
 filename = fullfile(BinFolder,'bin','sol101.h5');

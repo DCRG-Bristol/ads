@@ -1,9 +1,8 @@
 function write_case_control(obj,fid)
-    println(fid,'ECHOOFF');
-    println(fid,'ECHO=NONE');
-    mni.printing.bdf.writeHeading(fid,'Case Control');
+    mni.printing.bdf.writeHeading(fid,'Executive Control');
     mni.printing.bdf.writeColumnDelimiter(fid,'8');
     println(fid,'NASTRAN NLINES=999999');
+    println(fid,'ECHO=NONE');
     if obj.OutputAeroMatrices
         println(fid,'ASSIGN output4=''../bin/AJJ.op4'',formatted,UNIT=11');
         println(fid,'ASSIGN output4=''../bin/FFAJ.op4'',formatted,UNIT=12');

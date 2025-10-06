@@ -59,7 +59,8 @@ sol.UpdateID(IDs);
 % run Nastran
 ads.Log.setLevel("Trace");
 [sol.Outputs.WriteToF06] = deal(false); % minimise output in F06 file
-BinFolder = sol.run(fe,NumAttempts=1,BinFolder='ex_ffwt_sol145');
+BinFolder = sol.build(fe,'ex_ffwt_sol145');
+sol.run(BinFolder);
 res = sol.ExtractResults(BinFolder);
 
 %% plot V-G diagrams

@@ -69,7 +69,8 @@ ads.Log.setLevel("Trace");
 sol.Outputs(end+1) = ads.nast.OutRequest('FORCE');
 sol.Outputs(end+1) = ads.nast.OutRequest('STRESS');
 [sol.Outputs.WriteToF06] = deal(false); % minimise output in F06 file
-BinFolder = sol.run(fe,NumAttempts=1,BinFolder='ex_uw_sol146');
+BinFolder = sol.build(fe,'ex_uw_sol146');
+sol.run(BinFolder);
 
 %% plot WRBM response
 res = mni.result.hdf5(fullfile(BinFolder,'bin','sol146.h5'));

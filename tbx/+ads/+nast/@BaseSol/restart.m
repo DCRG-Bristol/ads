@@ -27,6 +27,6 @@ end
 fclose(fid);
 
 %% Run Analysis
-obj.executeNastran(BinFolder,opts.StopOnFatal,opts.NumAttempts,opts.cmdLineArgs,'restart');
+obj.run(BinFolder,StopOnFatal=opts.StopOnFatal,NumAttempts=opts.NumAttempts,cmdLineArgs=opts.cmdLineArgs,BDFName='restart');
 end
 

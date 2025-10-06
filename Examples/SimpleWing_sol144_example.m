@@ -3,7 +3,7 @@
 % baff file format to generate a model
 fclose all;
 clear all
-%% Create the FeModel
+% Create the FeModel
 
 % get baff model from private function
 BarChordwisePos = 0.15;
@@ -52,7 +52,8 @@ sol.UpdateID(IDs);
 % run Nastran
 ads.Log.setLevel("Trace");
 [sol.Outputs.WriteToF06] = deal(false); % minimise output in F06 file
-BinFolder = sol.run(fe,NumAttempts=1,BinFolder='ex_uw_sol144');
+BinFolder = sol.build(fe,'ex_uw_sol144');
+sol.run(BinFolder);
 
 %% load Nastran model and plot deformation
 filename = fullfile(BinFolder,'bin','sol144.h5');
