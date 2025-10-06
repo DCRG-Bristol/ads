@@ -25,7 +25,7 @@ classdef Log < handle
             arguments
                 level ads.util.LogLevel
                 message string
-                subLevel ads.util.LogSubLevel = ads.util.LogSubLevel.High
+                subLevel ads.util.LogSubLevel = ads.util.LogSubLevel.Mid
                 Symbol string = string.empty
             end
             obj = ads.Log.instance;
@@ -39,7 +39,7 @@ classdef Log < handle
         function trace(message,subLevel,symbol)
             arguments
                 message
-                subLevel = ads.util.LogSubLevel.High
+                subLevel = ads.util.LogSubLevel.Mid
                 symbol = string.empty
             end
             ads.Log.message(ads.util.LogLevel.Trace,message,subLevel,symbol);
@@ -47,7 +47,7 @@ classdef Log < handle
         function debug(message,subLevel,symbol)
             arguments
                 message
-                subLevel = ads.util.LogSubLevel.High
+                subLevel = ads.util.LogSubLevel.Mid
                 symbol = string.empty
             end
             ads.Log.message(ads.util.LogLevel.Debug,message,subLevel,symbol);
@@ -55,7 +55,7 @@ classdef Log < handle
         function info(message,subLevel,symbol)
             arguments
                 message
-                subLevel = ads.util.LogSubLevel.High
+                subLevel = ads.util.LogSubLevel.Mid
                 symbol = string.empty
             end
             ads.Log.message(ads.util.LogLevel.Info,message,subLevel,symbol);
@@ -63,7 +63,7 @@ classdef Log < handle
         function warn(message,subLevel,symbol)
             arguments
                 message
-                subLevel = ads.util.LogSubLevel.High
+                subLevel = ads.util.LogSubLevel.Mid
                 symbol = string.empty
             end
             ads.Log.message(ads.util.LogLevel.Warn,message,subLevel,symbol);
@@ -71,7 +71,7 @@ classdef Log < handle
         function error(message,subLevel,symbol)
             arguments
                 message
-                subLevel = ads.util.LogSubLevel.High
+                subLevel = ads.util.LogSubLevel.Mid
                 symbol = string.empty
             end
             ads.Log.message(ads.util.LogLevel.Error,message,subLevel,symbol);
@@ -79,7 +79,7 @@ classdef Log < handle
         function fatal(message,subLevel,symbol)
             arguments
                 message
-                subLevel = ads.util.LogSubLevel.High
+                subLevel = ads.util.LogSubLevel.Mid
                 symbol = string.empty
             end
             ads.Log.message(ads.util.LogLevel.Fatal,message,subLevel,symbol);
