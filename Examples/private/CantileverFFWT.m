@@ -61,6 +61,7 @@ wingtip.add(tmp_mass);
 % Add Constraint
 con = baff.Constraint("ComponentNums",123456,"eta",0,"Name","Root Connection");
 con.add(mainBeam);
+mainBeam.A = ads.util.rotz(90);
 
 % make the model
 model = baff.Model;

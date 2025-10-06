@@ -1,10 +1,10 @@
-classdef Sol144 < handle
+classdef Sol144 < ads.nast.BaseSol
     %FLUTTERSIM Summary of this class goes here
     %   Detailed explanation goes here
     
     properties
         % generic aero parameters
-        Name = 'SOL144';
+        Name = 'sol144';
 
         %trim Parameters
         ANGLEA = ads.nast.TrimParameter('ANGLEA',0,'Rigid Body');
@@ -19,7 +19,6 @@ classdef Sol144 < handle
         URDD5 = ads.nast.TrimParameter('URDD5',0,'Rigid Body');
         URDD6 = ads.nast.TrimParameter('URDD6',0,'Rigid Body');
 
-        LoadFactor = 1;
         V = 0;
         rho = 0;
         Mach = 0;
@@ -44,18 +43,9 @@ classdef Sol144 < handle
         SPC_ID = 3;
         Grav_ID = 4;
         Load_ID = 5;
-        SPCs = [];
-        ForceIDs = [];
-        StressIDs = [];     % added to mirror the functionality of the sol146 class
-
-        %CoM and constraint Paramters
-        g = 9.81;
-        Grav_Vector = [0;0;1];
-
-        % CoM Info for Boundary Constraints
-        isFree = false; % if is Free a Boundary condition will be applied to  the Centre of Mass
-        CoM = ads.fe.Constraint.empty;
-        DoFs = [];
+    end
+    properties(GetAccess = private,SetAccess = private)
+        trimObjs ads.nast.TrimParameter = ads.nast.TrimParameter.empty;
     end
     
     methods
@@ -66,9 +56,6 @@ classdef Sol144 < handle
                 obj.Grav_ID = ids.SID + 3;
                 obj.Load_ID = ids.SID + 4;
                 ids.SID = ids.SID + 5;
-        end
-        function str = config_string(obj)
-            str = '';
         end
         function set_trim_steadyLevel(obj,V,rho,Mach,CoM)
             arguments
@@ -93,16 +80,6 @@ classdef Sol144 < handle
             obj.Mach = Mach;
             obj.ANGLEA.Value = 0;
             obj.DoFs = [];
-        end
-        
-        %% A method to write a .bat file to the same location as the main .bdf which will run the analysis and make NASTRAN 
-        % write the result to the appropriate bin folder. This is just a convenience if you want to run the analysis without
-        % going via MATLAB.
-        function writeJobSubmissionBat(~, binFolder)
-            batFile = fullfile(pwd, binFolder, 'Source', 'run144.bat');
-            fid = fopen(batFile,'w');
-            fprintf(fid, '%s \n', 'nastran sol144.bdf out=..\bin\');
-            fclose(fid);
         end
     end
 end

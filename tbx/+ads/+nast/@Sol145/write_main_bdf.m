@@ -1,10 +1,12 @@
-function write_main_bdf(obj,filename,includes)
+function write_main_bdf(obj,filename,includes,feModel)
 arguments
     obj
     filename string
     includes (:,1) string
+    feModel ads.fe.Component
 end
     fid = fopen(filename,"w");
+    println(fid,'ECHOOFF');
     mni.printing.bdf.writeFileStamp(fid)
     %% Case Control Section
     mni.printing.bdf.writeComment(fid,'This file contain the main cards + case control for a 145 solution')
@@ -14,36 +16,18 @@ end
     println(fid,'SOL 145');
     println(fid,'TIME 10000');
     println(fid,'CEND');
-    mni.printing.bdf.writeHeading(fid,'Case Control')
+    println(fid,'ECHOOFF');
     println(fid,'ECHO=NONE');
-    println(fid,'VECTOR(SORT1,REAL)=ALL');
+    mni.printing.bdf.writeHeading(fid,'Case Control')
     println(fid,sprintf('SDAMP = %.0f',obj.SDAMP_ID));
     println(fid,sprintf('FMETHOD = %.0f',obj.FlutterID));
     println(fid,sprintf('METHOD = %.0f',obj.EigR_ID));
     fprintf(fid,'SPC=%.0f\n',obj.SPC_ID);
-    if ~isempty(obj.DispIDs)
-        if any(isnan(obj.DispIDs))
-            println(fid,'DISPLACEMENT(SORT1,REAL)= NONE');
-        else
-            mni.printing.cases.SET(1,obj.DispIDs).writeToFile(fid);
-            println(fid,'DISPLACEMENT(SORT1,REAL)= 1');
-        end
-    else
-        println(fid,'DISPLACEMENT(SORT1,REAL)= ALL');
-    end
-    if ~isempty(obj.ForceIDs)
-        if any(isnan(obj.ForceIDs))
-            println(fid,'FORCE(SORT1,REAL)= NONE');
-        else
-            mni.printing.cases.SET(2,obj.ForceIDs).writeToFile(fid);
-            println(fid,'FORCE(SORT1,REAL)= 2');
-        end
-    else
-        println(fid,'FORCE(SORT1,REAL)= ALL');
-    end
-    println(fid,'MONITOR = ALL');  
 
-    println(fid,'GROUNDCHECK=YES');
+    obj.Outputs.WriteToFile(fid);
+    obj.writeGroundCheck(fid);
+
+    println(fid,'MONITOR = ALL');
     println(fid,'AEROF=ALL');
     println(fid,'APRES=ALL');
     mni.printing.bdf.writeHeading(fid,'Begin Bulk')
@@ -75,8 +59,48 @@ end
 %     mni.printing.cards.EIGR(10,'MGIV','ND',42,'NORM','MAX')...
 %         .writeToFile(fid);
 
+    % define frequency / modes of interest
+    mni.printing.bdf.writeComment(fid,'Frequencies and Modes of Interest')
+    mni.printing.bdf.writeColumnDelimiter(fid,'8');
+    mni.printing.cards.PARAM('LMODES','i',obj.LModes).writeToFile(fid);
+    mni.printing.cards.PARAM('LMODESFL','i',obj.LModes).writeToFile(fid);
+    mni.printing.cards.PARAM('LFREQ','r',obj.FreqRange(1)).writeToFile(fid);
+    mni.printing.cards.PARAM('HFREQ','r',obj.FreqRange(2)).writeToFile(fid);
+    mni.printing.cards.PARAM('LFREQFL','r',obj.FreqRange(1)).writeToFile(fid);
+    mni.printing.cards.PARAM('HFREQFL','r',obj.FreqRange(2)).writeToFile(fid);
+
+    % define Modal damping
+    mni.printing.bdf.writeComment(fid,'Modal Damping')
+    mni.printing.bdf.writeColumnDelimiter(fid,'8');
+    mni.printing.cards.TABDMP1(obj.SDAMP_ID,'CRIT',obj.FreqRange,ones(1,2).*obj.ModalDampingPercentage).writeToFile(fid);
+    
+
+    mni.printing.bdf.writeComment(fid,'Flutter Card and Properties')
+    mni.printing.bdf.writeColumnDelimiter(fid,'8');
+    %create FLFACT cards
+    fl_cards = [{mni.printing.cards.FLFACT(obj.Flfact_rho_id,...
+        obj.rho/obj.RefDensity)},...
+        {mni.printing.cards.FLFACT(obj.Flfact_mach_id,obj.Mach)},...
+        {mni.printing.cards.FLFACT(obj.Flfact_v_id,obj.V)}]; 
+    for i = 1:length(fl_cards)
+        fl_cards{i}.writeToFile(fid)
+    end
+
+    %create flutter entry
+    mni.printing.bdf.writeColumnDelimiter(fid,'8');
+    f_card = mni.printing.cards.FLUTTER(obj.FlutterID,...
+        obj.FlutterMethod,obj.Flfact_rho_id,...
+        obj.Flfact_mach_id,obj.Flfact_v_id,[]);
+    f_card.writeToFile(fid);
+    if isempty(obj.ReducedMachs)
+        Ms = unique(obj.Mach);
+        if length(Ms)>5
+            Ms = linspace(Ms(1),Ms(end),5);
+        end
+    else
+        Ms = obj.ReducedMachs;
+    end
+    mni.printing.cards.MKAERO1(Ms,obj.ReducedFreqs).writeToFile(fid);
+    println(fid,'ENDDATA')
     fclose(fid);
-end
-function println(fid,string)
-fprintf(fid,'%s\n',string);
 end
