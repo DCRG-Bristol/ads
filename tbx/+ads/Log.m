@@ -1,80 +1,88 @@
 classdef Log < handle
     properties (Constant)
         instance = ads.Log()
+        Symbols = [[".","~","#","#","#","#"]; [" ","-","=","#","#","#"]; [" ",":","-","#","#","#"]];
     end
     properties
         level ads.util.LogLevel = ads.util.LogLevel.Trace
-    end
-    methods (Access = private)
-        function obj = Log()
-        end
+        subLevel double = ads.util.LogSubLevel.Low
     end
     methods(Static)
-        function val = getLevel()
+        function [val,subVal] = getLevel()
             val = ads.Log.instance.level;
+            subVal = ads.Log.instance.subLevel;
         end
-        function setLevel(level)
+        function setLevel(level,subLevel)
             arguments
                 level (1,1) ads.util.LogLevel
+                subLevel (1,1) ads.util.LogSubLevel = ads.util.LogSubLevel.Low
             end
             obj = ads.Log.instance;
             obj.level = level;
+            obj.subLevel = subLevel;
         end
-        function trace(message,Symbol)
+        function message(level,message,subLevel,Symbol)
             arguments
+                level ads.util.LogLevel
                 message string
-                Symbol string = " "
+                subLevel ads.util.LogSubLevel = ads.util.LogSubLevel.Mid
+                Symbol string = string.empty
             end
             obj = ads.Log.instance;
-            if obj.level <= ads.util.LogLevel.Trace
+            if isempty(Symbol)
+                Symbol = ads.Log.Symbols(3-double(subLevel), double(level)/10 + 1);
+            end
+            if obj.level + obj.subLevel <= level + subLevel
                 ads.util.printing.title(message,Symbol=Symbol);
             end
         end
-        function debug(message,Symbol)
+        function trace(message,subLevel,symbol)
             arguments
-                message string
-                Symbol string = "-"
+                message
+                subLevel = ads.util.LogSubLevel.Mid
+                symbol = string.empty
             end
-            obj = ads.Log.instance;
-            if obj.level <= ads.util.LogLevel.Debug
-                ads.util.printing.title(message,Symbol=Symbol);
-            end
+            ads.Log.message(ads.util.LogLevel.Trace,message,subLevel,symbol);
         end
-        function info(message,Symbol)
+        function debug(message,subLevel,symbol)
             arguments
-                message string
-                Symbol string = "="
+                message
+                subLevel = ads.util.LogSubLevel.Mid
+                symbol = string.empty
             end
-            obj = ads.Log.instance;
-            if obj.level <= ads.util.LogLevel.Info
-                ads.util.printing.title(message,Symbol=Symbol);
-            end
+            ads.Log.message(ads.util.LogLevel.Debug,message,subLevel,symbol);
         end
-        function warn(message,Symbol)
+        function info(message,subLevel,symbol)
             arguments
-                message string
-                Symbol string = "~"
+                message
+                subLevel = ads.util.LogSubLevel.Mid
+                symbol = string.empty
             end
-            obj = ads.Log.instance;
-            if obj.level <= ads.util.LogLevel.Warn
-                ads.util.printing.title(message,Symbol=Symbol);
-            end
+            ads.Log.message(ads.util.LogLevel.Info,message,subLevel,symbol);
         end
-        function error(message,Symbol)
+        function warn(message,subLevel,symbol)
             arguments
-                message (1,1) string
-                Symbol (1,1) string = "%"
+                message
+                subLevel = ads.util.LogSubLevel.Mid
+                symbol = string.empty
             end
-            obj = ads.Log.instance;
-            if obj.level <= ads.util.LogLevel.Error
-                ads.util.printing.title(message,Symbol=Symbol);
-            end
+            ads.Log.message(ads.util.LogLevel.Warn,message,subLevel,symbol);
         end
-        function fatal(message)
-            obj = ads.Log.instance;
-            if obj.level <= ads.util.LogLevel.Fatal
-                ads.util.printing.title(message,Symbol="X",Padding=1);
+        function error(message,subLevel,symbol)
+            arguments
+                message
+                subLevel = ads.util.LogSubLevel.Mid
+                symbol = string.empty
             end
+            ads.Log.message(ads.util.LogLevel.Error,message,subLevel,symbol);
+        end
+        function fatal(message,subLevel,symbol)
+            arguments
+                message
+                subLevel = ads.util.LogSubLevel.Mid
+                symbol = string.empty
+            end
+            ads.Log.message(ads.util.LogLevel.Fatal,message,subLevel,symbol);
         end
     end
 end
