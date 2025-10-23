@@ -11,7 +11,7 @@ function run(obj,BinFolder,opts)
 attempt = 1;
 bdfname = opts.BDFName;
 while attempt<opts.NumAttempts+1
-    ads.Log.trace(['Computing ',bdfname],ads.util.LogSubLevel.High);
+    ads.Log.trace(['Computing ',bdfname],LogSubLevel.High);
     % run NASTRAN
     current_folder = pwd;
     cd(fullfile(BinFolder,'Source'))
@@ -21,11 +21,11 @@ while attempt<opts.NumAttempts+1
     % save the command to a bat file for repeat execution
     writelines(command,[bdfname,'.bat']);
     % execute the command
-    ads.Log.trace(['Nastran Started at: ',datestr(now, 'HH:MM:SS')],ads.util.LogSubLevel.Mid);
+    ads.Log.trace(['Nastran Started at: ',datestr(now, 'HH:MM:SS')],LogSubLevel.Mid);
     tic;
     system(command);
     t = toc;
-    ads.Log.trace(['Nastran completed in ',num2str(t),' seconds'],ads.util.LogSubLevel.High);
+    ads.Log.trace(['Nastran completed in ',num2str(t),' seconds'],LogSubLevel.High);
     cd(current_folder);
 
     %get Results
