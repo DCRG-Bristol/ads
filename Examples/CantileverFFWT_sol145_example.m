@@ -57,7 +57,7 @@ sol.FlutterMethod = 'PKNL';
 sol.UpdateID(IDs);
 
 % run Nastran
-ads.Log.setLevel("Trace");
+Log.setLevel("Trace");
 [sol.Outputs.WriteToF06] = deal(false); % minimise output in F06 file
 BinFolder = sol.build(fe,'ex_ffwt_sol145');
 sol.run(BinFolder);

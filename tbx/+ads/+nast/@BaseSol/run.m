@@ -11,7 +11,7 @@ function run(obj,BinFolder,opts)
 attempt = 1;
 bdfname = opts.BDFName;
 while attempt<opts.NumAttempts+1
-    ads.Log.trace(['Computing ',bdfname],LogSubLevel.High);
+    Log.trace(['Computing ',bdfname],LogSubLevel.High);
     % run NASTRAN
     current_folder = pwd;
     cd(fullfile(BinFolder,'Source'))
@@ -21,11 +21,11 @@ while attempt<opts.NumAttempts+1
     % save the command to a bat file for repeat execution
     writelines(command,[bdfname,'.bat']);
     % execute the command
-    ads.Log.trace(['Nastran Started at: ',datestr(now, 'HH:MM:SS')],LogSubLevel.Mid);
+    Log.trace(['Nastran Started at: ',datestr(now, 'HH:MM:SS')],LogSubLevel.Mid);
     tic;
     system(command);
     t = toc;
-    ads.Log.trace(['Nastran completed in ',num2str(t),' seconds'],LogSubLevel.High);
+    Log.trace(['Nastran completed in ',num2str(t),' seconds'],LogSubLevel.High);
     cd(current_folder);
 
     %get Results
@@ -33,18 +33,18 @@ while attempt<opts.NumAttempts+1
     f06_file = mni.result.f06(f06_filename);
     if f06_file.isEmpty
         if opts.StopOnFatal
-            error('ADS:Nastran','Fatal error detected in f06 file %s...',f06_filename)
+            error('ADS:Nastran','Fatal error detected in f06 file %s',f06_filename)
         else
             attempt = attempt + 1;
-            ads.Log.warn(sprintf('%s is empty on attempt %.0f...',f06_filename,attempt));
+            Log.warn(sprintf('%s is empty on attempt %.0f',f06_filename,attempt));
             continue           
         end
     elseif f06_file.isfatal
         if opts.StopOnFatal
-            error('ADS:Nastran','Fatal error detected in f06 file %s...',f06_filename)
+            error('ADS:Nastran','Fatal error detected in f06 file %s',f06_filename)
         else
             attempt = attempt + 1;
-            ads.Log.warn(sprintf('Fatal error detected on attempt %.0f in f06 file %s...',attempt,f06_filename));
+            Log.warn(sprintf('Fatal error detected on attempt %.0f in f06 file %s',attempt,f06_filename));
             continue
         end
     else
@@ -53,9 +53,9 @@ while attempt<opts.NumAttempts+1
 end
 if attempt > opts.NumAttempts
     if opts.StopOnFatal
-        ads.Log.error(sprintf('Failed after %.0f attempts %s... STOPPING\n',opts.NumAttempts,f06_filename));
-        error('ADS:Nastran','Failed after %.0f attempts %s...',opts.NumAttempts,f06_filename);
+        Log.error(sprintf('Failed after %.0f attempts %s',opts.NumAttempts,f06_filename));
+        error('ADS:Nastran','Failed after %.0f attempts %s',opts.NumAttempts,f06_filename);
     else
-        ads.Log.warn(sprintf('Failed after %.0f attempts %s... CONTINUING\n',opts.NumAttempts,f06_filename));
+        Log.warn(sprintf('Failed after %.0f attempts %s',opts.NumAttempts,f06_filename));
     end
 end

@@ -34,7 +34,7 @@ sol.g = 0;                  % disable gravity
 sol.UpdateID(IDs);
 
 % run Nastran
-ads.Log.setLevel("Trace") % see all messages
+Log.setLevel("Trace") % see all messages
 sol.Outputs(end+1) = ads.nast.OutRequest('GPFORCE');
 [sol.Outputs.WriteToF06] = deal(false); % minimise output in F06 file
 BinFolder = sol.build(fe,'ex_uw_sol103');

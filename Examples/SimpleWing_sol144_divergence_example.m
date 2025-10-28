@@ -57,7 +57,7 @@ for si=1:length(Sweeps)
 
     % run Nastran
     BinFolder = sprintf('ex_sol144_div_b%.0f_sw_%.0f',BarChordwisePos*100,Sweep);
-    ads.Log.setLevel("Debug");
+    Log.setLevel("Debug");
     [sol.Outputs.WriteToF06] = deal(false); % minimise output in F06 file
     BinFolder = sol.build(fe,BinFolder);
     sol.run(BinFolder);
