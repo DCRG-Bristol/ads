@@ -1,9 +1,10 @@
-function model = sol144(bin_folder)
+function model = sol144(bin_folder,f)
 arguments
     bin_folder char
+    f = figure()
 end
     model = mni.import_matran(fullfile(bin_folder,'Source','sol144.bdf'));
-    model.draw;
+    model.draw(f);
     % hdf = mni.result.hdf5(fullfile(bin_folder,'bin','sol144.h5'));
 
     f06 =  mni.result.f06(fullfile(bin_folder,'bin','sol144.f06'));
