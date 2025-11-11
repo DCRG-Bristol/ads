@@ -1,10 +1,11 @@
-function model = sol144(bin_folder,f)
+function model = sol144(bin_folder,f,plotOpts)
 arguments
     bin_folder char
     f = figure()
+    plotOpts = mni.bulk.PlotOpts();
 end
     model = mni.import_matran(fullfile(bin_folder,'Source','sol144.bdf'));
-    model.draw(f);
+    model.draw(f,plotOpts);
     % hdf = mni.result.hdf5(fullfile(bin_folder,'bin','sol144.h5'));
 
     f06 =  mni.result.f06(fullfile(bin_folder,'bin','sol144.f06'));
@@ -23,5 +24,5 @@ end
         res_aeroF.aeroMx;res_aeroF.aeroMy;res_aeroF.aeroMz];
 
     model.CAERO1.PanelForce = f';
-    model.update('Scale',1)
+    model.update(plotOpts)
 end
