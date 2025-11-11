@@ -29,8 +29,8 @@ ax.ZAxis.Direction = "reverse";
 axis equal
 
 %% Setup 144 Analysis with Nastran
-U = 18;  % velocity in m/s
-aoa = 2; % AoA in degrees
+U = 1;  % velocity in m/s
+aoa = 0; % AoA in degrees
 
 %flatten the FE model and update the element ID numbers
 fe = fe.Flatten;
@@ -51,6 +51,7 @@ sol = ads.nast.Sol144();
 sol.set_trim_locked(U,1.225,0); %V, rho, Mach
 sol.ANGLEA.Value = deg2rad(aoa);
 sol.Grav_Vector = [0 0 0];
+sol.g = 0;
 sol.LoadFactor = 0;
 sol.UpdateID(IDs);
 
