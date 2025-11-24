@@ -53,8 +53,8 @@ methods
                 alt = min(max(opts.alt,15000),50000);
                 w_ref_eas = interp1([0,15e3,60e3],[17.07,13.41,6.36],alt);
                 % convert EAS to TAS
-                [rho_0,~,~,~,~,~,~] = ads.util.atmos(0);
-                [rho,~,~,~,~,~,~] = ads.util.atmos(convlength(alt,'ft','m'));
+                [rho_0,~,~,~,~,~,~] = dcrg.aero.atmos(0);
+                [rho,~,~,~,~,~,~] = dcrg.aero.atmos(alt./SI.ft);
                 w_ref_tas = w_ref_eas.*sqrt(rho_0./rho);
                 % calc amplitude
                 obj.Amplitude = w_ref_tas*(0.5*obj.Length/107).^(1/6);

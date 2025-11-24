@@ -42,7 +42,7 @@ sol.UpdateID(IDs);
 
 % run Nastran
 BinFolder = 'ex_uw_sol101';
-ads.Log.setLevel("Trace") % see all messages
+Log.setLevel("Trace") % see all messages
 sol.Outputs(end+1) = ads.nast.OutRequest('ACCELERATION');
 sol.Outputs(end+1) = ads.nast.OutRequest('GPFORCE');
 sol.Outputs(end+1) = ads.nast.OutRequest('FORCE');

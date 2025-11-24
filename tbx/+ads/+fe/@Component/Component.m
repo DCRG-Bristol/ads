@@ -51,15 +51,11 @@ classdef Component < handle
             xlabel('X');
             ylabel('Y');
             zlabel('Z');
-            set(fig_handle, 'WindowButtonDownFcn',    @ads.util.plotting.BtnDwnCallback, ...
-                      'WindowScrollWheelFcn',   @ads.util.plotting.ScrollWheelCallback, ...
-                      'KeyPressFcn',            @ads.util.plotting.KeyPressCallback, ...
-                      'WindowButtonUpFcn',      @ads.util.plotting.BtnUpCallback)
             %draw the elements
             plt_obj = obj.drawElement();
             % make the legend
             [names,idx] = unique(arrayfun(@(x)string(x.Tag),plt_obj));
-            lg = legend(plt_obj(idx),names,'ItemHitFcn', @ads.util.plotting.cbToggleVisible);
+            lg = legend(plt_obj(idx),names,'ItemHitFcn', @baff.util.plotting.cbToggleVisible);
         end
         function plt_obj = drawElement(obj)
             plt_obj = [];

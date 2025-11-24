@@ -65,7 +65,7 @@ end
 sol.UpdateID(IDs);
 
 % run Nastran
-ads.Log.setLevel("Trace");
+Log.setLevel("Trace");
 sol.Outputs(end+1) = ads.nast.OutRequest('FORCE');
 sol.Outputs(end+1) = ads.nast.OutRequest('STRESS');
 [sol.Outputs.WriteToF06] = deal(false); % minimise output in F06 file
