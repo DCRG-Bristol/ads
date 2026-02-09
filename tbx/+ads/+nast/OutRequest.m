@@ -27,7 +27,7 @@ classdef OutRequest
                 if ~isscalar(tOut.IDs) && (any(isnan(tOut.IDs)) || any(isinf(tOut.IDs)))
                     error('If specifying multiple output IDs, cannot include NaN or Inf values');
                 end
-                if isempty(tOut.IDs) || isinf(tOut.IDs)
+                if isempty(tOut.IDs) || any(isinf(tOut.IDs))
                     IDset = 'ALL';
                 elseif any(isnan(tOut.IDs))
                     IDset = 'NONE';
