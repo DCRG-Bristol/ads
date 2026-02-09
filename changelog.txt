@@ -13,6 +13,7 @@ and this project adheres to [Explicit Versioning](https://github.com/exadra37-ve
 ### Fixed
 - Typo corrected in nast.sol103.run()
 - Reinstated trailing '\' in nast.buildCommand()
+- Minor bug fix in nast.OutRequest()
 
 
 ## [0.3.x.x]
