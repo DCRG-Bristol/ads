@@ -8,9 +8,11 @@ and this project adheres to [Explicit Versioning](https://github.com/exadra37-ve
 ## [Unreleased]
 ### Added
 ### Changed
+- Velocity and density now defined at superclass level in nast.BaseSol. This allows nast.BaseSol.Build() to access these properties safely.
 ### Deprecated
 ### Removed
 ### Fixed
+- nast.BaseSol.Build() now updates feModel aero properties, ensuring the velocity and density on the AERO card match the GUST card in a 146 analysis. 
 - Typo corrected in nast.sol103.run()
 - Reinstated trailing '\' in nast.buildCommand()
 - Minor bug fix in nast.OutRequest()
