@@ -20,8 +20,6 @@ classdef Sol111 < handle
         URDD6 = ads.nast.TrimParameter('URDD6',0,'Rigid Body');
 
         LoadFactor = 1;
-        V = 0;
-        rho = 0;
         Mach = 0;
         AEQR = 1;
         ACSID = [];
