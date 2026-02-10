@@ -5,8 +5,6 @@ classdef Sol146 < ads.nast.BaseSol
     properties
         % generic aero parameters
         Name = 'sol146';
-        V = 0;
-        rho = 0;
         Mach = 0;
         Alt = 0 ; % altitude in feet (for when gusts spec'ed to CS-25)
         AEQR = 1;
