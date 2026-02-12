@@ -165,7 +165,8 @@ classdef AeroSurface < ads.fe.Element
                 end
                 c = reshape(c,size(X,2),1,3);
                 plt_obj(i) = patch('XData', X,'YData', Y,'ZData', Z,...
-                    'Tag', 'Aero Panels', 'CData', c,'FaceColor','flat');
+                    'Tag', 'Aero Panels', 'CData', c,'FaceColor','flat',...
+                    'FaceAlpha', 0.25, 'EdgeAlpha', 0.25);
             end
         end
         function CS = getHingeCoordSys(obj)
