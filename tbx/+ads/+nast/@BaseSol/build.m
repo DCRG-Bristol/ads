@@ -11,6 +11,10 @@ obj.ExtractIDs(feModel);
 % create Folder Structure
 BinFolder = ads.nast.create_tmp_bin(BinFolder);
 
+% Update Aero properties on feModel
+feModel.AeroSettings.Velocity = obj.V(1);
+feModel.AeroSettings.RefRho = obj.rho(1);
+
 % export model to BDF
 modelFile = string(fullfile(pwd,BinFolder,'Source','Model','model.bdf'));
 feModel.Export(modelFile);

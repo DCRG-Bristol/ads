@@ -19,8 +19,6 @@ classdef Sol144 < ads.nast.BaseSol
         URDD5 = ads.nast.TrimParameter('URDD5',0,'Rigid Body');
         URDD6 = ads.nast.TrimParameter('URDD6',0,'Rigid Body');
 
-        V = 0;
-        rho = 0;
         Mach = 0;
         AEQR = 1;
         ACSID = [];
