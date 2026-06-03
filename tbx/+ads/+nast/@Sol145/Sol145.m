@@ -5,7 +5,13 @@ classdef Sol145 < ads.nast.BaseSol
     properties
         % generic aero parameters
         Name = 'sol145';
+
+        % Flow info
+        V (:,1) double {mustBeNonzero} = 1;
+        rho double {mustBeNonzero} = 1.225;
         Mach = 0;
+
+        
         AEQR = 1;
         ACSID = [];
 
