@@ -67,6 +67,6 @@ N = 1;
 [~,i] = ismember(nas_model.GRID.GID,res(N).IDs);
 nas_model.GRID.Deformation = [res(N).EigenVector(i,1:3)]';
 
-nas_model.animate(Period=2,Cycles=2,Scale=1);
+nas_model.animate(mni.bulk.PlotOpts(Period=2,Cycles=2,Scale=1));
 nas_model.update()
 

@@ -61,10 +61,11 @@ axis equal
 
 %% animate the Modeshape
 %mode number to plot
-N = 5;
+N = 2;
 [~,i] = ismember(nas_model.GRID.GID,res(N).IDs);
 nas_model.GRID.Deformation = [res(N).EigenVector(i,1:3)]';
 
-nas_model.animate(Period=2,Cycles=2,Scale=1);
+pOpts = mni.bulk.PlotOpts(Period=2,Cycles=2,Scale=1);
+nas_model.animate(pOpts);
 nas_model.update()
 

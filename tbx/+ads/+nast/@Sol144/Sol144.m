@@ -19,7 +19,11 @@ classdef Sol144 < ads.nast.BaseSol
         URDD5 = ads.nast.TrimParameter('URDD5',0,'Rigid Body');
         URDD6 = ads.nast.TrimParameter('URDD6',0,'Rigid Body');
 
+        % Flow info
+        V (:,1) double {mustBeNonzero} = 1;
+        rho double {mustBeNonzero} = 1.225;
         Mach = 0;
+        
         AEQR = 1;
         ACSID = [];
 

@@ -10,10 +10,6 @@ classdef (Abstract) BaseSol < handle
         g = 9.81;
         Grav_Vector = [0;0;1];
 
-        % Flow info
-        V (:,1) double {mustBeNonzero} = 1;
-        rho double {mustBeNonzero} = 1.225;
-
         SPCs = [];
 
         Outputs ads.nast.OutRequest = ads.nast.OutRequest('DISP');

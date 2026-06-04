@@ -8,6 +8,10 @@ arguments
 end
 obj.OutputAeroMatrices = sol144Opts.OutputAeroMatrices;
 
+% Update Aero properties on feModel
+feModel.AeroSettings.Velocity = obj.V(1);
+feModel.AeroSettings.RefRho = obj.rho(1);
+
 % add control surfaces to trim parameters
 for i = 1:length(feModel.ControlSurfaces)
     cs = feModel.ControlSurfaces(i);
