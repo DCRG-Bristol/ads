@@ -18,5 +18,5 @@ if baffOpts.SplitBeamsAtChildren
     tmpEtas = unique([etas,child_eta]);
     etas = tmpEtas(tmpEtas>=etas(1) & tmpEtas<=etas(end)); % ensure dont add points not on the beam
 end
-etas = round(etas,15);
+etas = unique(round(etas,15));
 end
